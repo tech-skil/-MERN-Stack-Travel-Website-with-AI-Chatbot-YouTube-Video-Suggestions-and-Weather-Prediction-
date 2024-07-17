@@ -22,6 +22,7 @@ import { app } from "../firebase";
 import MyBookings from "./user/MyBookings";
 import UpdateProfile from "./user/UpdateProfile";
 import MyHistory from "./user/MyHistory";
+import ChatIcon from "./ChatIcon";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -250,50 +251,11 @@ const Profile = () => {
                 Delete account
               </button>
             </div>
-            <div>
-            <Link to="/ChatInterface">
-            Chatbot
-            </Link>
-            </div>
+
           </div>
           {/* ---------------------------------------------------------------------------------------- */}
           <div className="w-[60%] max-sm:w-full">
-            {/* <div>
-              <nav className="w-full border-blue-500 border-b-4">
-                <div className="w-full flex gap-2">
-                  <button
-                    className={
-                      activePanelId === 1
-                        ? "p-1 rounded-t transition-all duration-300 bg-blue-500 text-white"
-                        : "p-1 rounded-t transition-all duration-300"
-                    }
-                    id="bookings"
-                    onClick={() => setActivePanelId(1)}
-                  >
-                    Bookings
-                  </button>
-                  <button
-                    className={
-                      activePanelId === 2
-                        ? "p-1 rounded-t transition-all duration-300 bg-blue-500 text-white"
-                        : "p-1 rounded-t transition-all duration-300"
-                    }
-                    id="updateProfile"
-                    onClick={() => setActivePanelId(2)}
-                  >
-                    History
-                  </button>
-                </div>
-              </nav>
-              {/* bookings */}
-              <div className="main flex flex-wrap">
-                {activePanelId === 1 && <MyBookings />}
-                {/* History */}
-                {activePanelId === 2 && <MyHistory />}
-                {/* Update profile */}
-                {activePanelId === 3 && <UpdateProfile />}
-              </div>
-            {/* </div> */}
+
           </div>
         </>
       ) : (
@@ -301,6 +263,7 @@ const Profile = () => {
           <p className="text-red-700">Login First</p>
         </div>
       )}
+      <ChatIcon/>
     </div>
   );
 };

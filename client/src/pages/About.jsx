@@ -1,5 +1,6 @@
 import aboutImg from "../assets/images/about_img.png";
 import { FaExternalLinkAlt } from "react-icons/fa";
+import ChatIcon from "./ChatIcon";
 
 const About = () => {
   return (
@@ -40,6 +41,7 @@ const About = () => {
           quod aliquid. Quisquam, dolor.
         </p>
       </div>
+      <ChatIcon />
     </div>
   );
 };

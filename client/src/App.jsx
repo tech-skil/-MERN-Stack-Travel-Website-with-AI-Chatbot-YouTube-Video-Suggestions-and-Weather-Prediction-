@@ -10,11 +10,13 @@ import PrivateRoute from "./pages/Routes/PrivateRoute";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminRoute from "./pages/Routes/AdminRoute";
 import UpdatePackage from "./pages/admin/UpdatePackage";
-import Package from "./pages/Package";
-import RatingsPage from "./pages/RatingsPage";
-import Booking from "./pages/user/Booking";
+// import Package from "./pages/Package";
+// import RatingsPage from "./pages/RatingsPage";
+// import Booking from "./pages/user/Booking";
 import Search from "./pages/Search";
 import ChatInterface  from "./pages/Chatbot/ChatInterface";
+import Footer from "./pages/components/Footer";
+// import { Link } from "react-router-dom";
 
 const App = () => {
   return (
@@ -44,9 +46,9 @@ const App = () => {
           <Route path=":packageId" element={<Booking />} />
         </Route> */}
           <Route path="/ChatInterface" element={<ChatInterface />} />
-
       </Routes>
     </BrowserRouter>
+    <Footer/>
     </div>
   );
 };
