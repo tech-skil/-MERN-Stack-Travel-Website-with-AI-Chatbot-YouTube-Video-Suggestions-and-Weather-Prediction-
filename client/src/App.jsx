@@ -15,6 +15,7 @@ import UpdatePackage from "./pages/admin/UpdatePackage";
 // import Booking from "./pages/user/Booking";
 import Search from "./pages/Search";
 import ChatInterface  from "./pages/Chatbot/ChatInterface";
+import {  } from "./pages/components/Forrer";
 // import { Link } from "react-router-dom";
 
 const App = () => {
