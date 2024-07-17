@@ -1,7 +1,16 @@
-import React from "react";
+import React, {useState } from "react";
 import { FaTwitter, FaFacebook, FaYoutube, FaLinkedin } from "react-icons/fa";
-const Forrer = () => {
+import ScrollAnimationComponent from "../ScrollAnimationComponent";
+const Footer = () => {
+  
+  const [email, setEmail] = useState("");
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Email submitted:", email);
+    setEmail("");
+  };
   return (
+
     <div>
       <ScrollAnimationComponent>
         <div className="bg-white py-16">
@@ -165,4 +174,4 @@ const Forrer = () => {
   );
 };
 
-export default Forrer;
+export default Footer;

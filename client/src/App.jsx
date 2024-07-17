@@ -15,7 +15,7 @@ import UpdatePackage from "./pages/admin/UpdatePackage";
 // import Booking from "./pages/user/Booking";
 import Search from "./pages/Search";
 import ChatInterface  from "./pages/Chatbot/ChatInterface";
-import {  } from "./pages/components/Forrer";
+import Footer from "./pages/components/Footer";
 // import { Link } from "react-router-dom";
 
 const App = () => {
@@ -48,9 +48,7 @@ const App = () => {
           <Route path="/ChatInterface" element={<ChatInterface />} />
       </Routes>
     </BrowserRouter>
-    {/* <dev className="relative">
-    <Link to="/ChatInterface" className="absolute">Chat</Link>
-    </dev> */}
+    <Footer/>
     </div>
   );
 };

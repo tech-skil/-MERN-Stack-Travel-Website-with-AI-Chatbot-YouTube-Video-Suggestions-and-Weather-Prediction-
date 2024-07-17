@@ -15,7 +15,6 @@ const Home = () => {
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
   const [counts, setCounts] = useState({ places: 0, reviews: 0, clients: 0 });
-  const [email, setEmail] = useState("");
   const [currentSlide, setCurrentSlide] = useState(0);
 
 
@@ -35,11 +34,7 @@ const Home = () => {
     },
   ];
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Email submitted:", email);
-    setEmail("");
-  };
+
 
   const nextSlide = () => {
     setCurrentSlide((prevSlide) => (prevSlide + 1) % destinations.length);
