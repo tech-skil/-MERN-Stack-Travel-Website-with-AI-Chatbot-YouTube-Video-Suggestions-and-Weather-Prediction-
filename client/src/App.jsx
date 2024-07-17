@@ -14,11 +14,14 @@ import Package from "./pages/Package";
 import RatingsPage from "./pages/RatingsPage";
 import Booking from "./pages/user/Booking";
 import Search from "./pages/Search";
+import ChatInterface  from "./pages/Chatbot/ChatInterface";
 
 const App = () => {
   return (
+    <div className="mx-auto lg:container">
     <BrowserRouter>
-      <Header />
+
+      <Header/>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
@@ -34,14 +37,17 @@ const App = () => {
           <Route path="admin/update-package/:id" element={<UpdatePackage />} />
         </Route>
         <Route path="/about" element={<About />} />
-        <Route path="/package/:id" element={<Package />} />
-        <Route path="/package/ratings/:id" element={<RatingsPage />} />
+        {/* <Route path="/package/:id" element={<Package />} />
+        <Route path="/package/ratings/:id" element={<RatingsPage />} /> */}
         {/* checking user auth before booking */}
-        <Route path="/booking" element={<PrivateRoute />}>
+        {/* <Route path="/booking" element={<PrivateRoute />}>
           <Route path=":packageId" element={<Booking />} />
-        </Route>
+        </Route> */}
+          <Route path="/ChatInterface" element={<ChatInterface />} />
+
       </Routes>
     </BrowserRouter>
+    </div>
   );
 };
 

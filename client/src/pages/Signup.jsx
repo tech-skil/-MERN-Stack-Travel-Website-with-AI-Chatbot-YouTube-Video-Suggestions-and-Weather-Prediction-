@@ -1,19 +1,20 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Canvas } from '@react-three/fiber';
-import rg from "../assets/rg.avif";
+import rg from '../assets/rg.avif';
 import { OrbitControls, Sphere } from '@react-three/drei';
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Signup = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    agreeToTerms: false
+    username: '',
+    email: '',
+    password: '',
+    address: '',
+    phone: '',
+    agreeToTerms: false,
   });
 
   const handleChange = (e) => {
@@ -30,7 +31,7 @@ const Signup = () => {
       const res = await axios.post(`/api/auth/signup`, formData);
       if (res?.data?.success) {
         alert(res?.data?.message);
-        navigate("/login");
+        navigate('/login');
       } else {
         alert(res?.data?.message);
       }
@@ -42,7 +43,7 @@ const Signup = () => {
   return (
     <div className="min-h-screen bg-white flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl w-full space-y-8 flex flex-col md:flex-row">
-        <motion.div 
+        <motion.div
           className="w-full md:w-1/2 pr-0 md:pr-8 mb-8 md:mb-0"
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
@@ -54,7 +55,8 @@ const Signup = () => {
               { name: 'username', type: 'text', placeholder: 'Username', icon: '👤' },
               { name: 'email', type: 'email', placeholder: 'Email', icon: '📧' },
               { name: 'password', type: 'password', placeholder: 'Password', icon: '🔒' },
-              { name: 'confirmPassword', type: 'password', placeholder: 'Repeat Password', icon: '🔒' }
+              { name: 'address', type: 'text', placeholder: 'Address', icon: '🏠' },
+              { name: 'phone', type: 'tel', placeholder: 'Phone Number', icon: '📞' },
             ].map((field) => (
               <div key={field.name} className="relative">
                 <span className="absolute left-3 top-3">{field.icon}</span>

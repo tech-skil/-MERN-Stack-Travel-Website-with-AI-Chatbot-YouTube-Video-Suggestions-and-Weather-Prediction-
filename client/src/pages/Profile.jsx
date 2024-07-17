@@ -144,7 +144,7 @@ const Profile = () => {
   };
 
   return (
-    <div className="flex w-full flex-wrap max-sm:flex-col p-2">
+    <div className="flex w-full flex-wrap max-sm:flex-col mt-24 p-2">
       {currentUser ? (
         <>
           <div className="w-[40%] p-3 max-sm:w-full">
@@ -250,10 +250,15 @@ const Profile = () => {
                 Delete account
               </button>
             </div>
+            <div>
+            <Link to="/ChatInterface">
+            Chatbot
+            </Link>
+            </div>
           </div>
           {/* ---------------------------------------------------------------------------------------- */}
           <div className="w-[60%] max-sm:w-full">
-            <div>
+            {/* <div>
               <nav className="w-full border-blue-500 border-b-4">
                 <div className="w-full flex gap-2">
                   <button
@@ -288,7 +293,7 @@ const Profile = () => {
                 {/* Update profile */}
                 {activePanelId === 3 && <UpdateProfile />}
               </div>
-            </div>
+            {/* </div> */}
           </div>
         </>
       ) : (
