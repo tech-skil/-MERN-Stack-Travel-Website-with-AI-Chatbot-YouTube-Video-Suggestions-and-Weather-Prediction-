@@ -4,7 +4,7 @@ import { initializeChat, sendMessage } from './GeminiService';
 import scrollLoading from '../../assets/images/scrollLoding.gif';
 // import Home from "../../pages/Home";
 import  "../styles/Home.css";
-
+  
 const formatResponse = (text) => {
   const sections = text.split('**').filter(s => s.trim()) || text.split('##').filter(s => s.trim());
   let formattedText = '';
