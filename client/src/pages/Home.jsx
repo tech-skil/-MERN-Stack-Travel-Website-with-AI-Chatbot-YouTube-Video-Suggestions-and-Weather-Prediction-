@@ -1,18 +1,53 @@
 import React, { useCallback, useEffect, useState } from "react";
 import "./styles/Home.css";
-import { FaCalendar, FaSearch, FaStar } from "react-icons/fa";
-import { FaRankingStar } from "react-icons/fa6";
-import { LuBadgePercent } from "react-icons/lu";
+import { FaTwitter, FaFacebook, FaYoutube, FaLinkedin } from "react-icons/fa";
+import ScrollAnimationComponent from "./ScrollAnimationComponent";
+import { FaSearch } from "react-icons/fa";
 import PackageCard from "./PackageCard";
 import { useNavigate } from "react-router";
+import homeVideo from "../assets/vedios/home.mp4";
 
 const Home = () => {
   const navigate = useNavigate();
   const [topPackages, setTopPackages] = useState([]);
-  const [latestPackages, setLatestPackages] = useState([]);
-  const [offerPackages, setOfferPackages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
+  const [counts, setCounts] = useState({ places: 0, reviews: 0, clients: 0 });
+  const [email, setEmail] = useState("");
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const destinations = [
+    {
+      name: "Coorg",
+      season: "Summer",
+      description:
+        'Known as the "Cherrapunji of the South" for its high rainfall, this town offers a lush, waterfall-rich landscape best experienced during the monsoon season.',
+    },
+    {
+      name: "Gokarna",
+      season: "Winter",
+      description:
+        "This beach town, favored by backpackers and yoga enthusiasts, offers uncrowded beaches in winter with ideal weather for swimming, sunbathing, and surfing.",
+    },
+  ];
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Email submitted:", email);
+    setEmail("");
+  };
+
+  const nextSlide = () => {
+    setCurrentSlide((prevSlide) => (prevSlide + 1) % destinations.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide(
+      (prevSlide) => (prevSlide - 1 + destinations.length) % destinations.length
+    );
+  };
+
+  //
 
   const getTopPackages = useCallback(async () => {
     try {
@@ -31,168 +66,349 @@ const Home = () => {
     } catch (error) {
       console.log(error);
     }
-  }, [topPackages]);
-
-  const getLatestPackages = useCallback(async () => {
-    try {
-      setLoading(true);
-      const res = await fetch(
-        "/api/package/get-packages?sort=createdAt&limit=8"
-      );
-      const data = await res.json();
-      if (data?.success) {
-        setLatestPackages(data?.packages);
-        setLoading(false);
-      } else {
-        setLoading(false);
-        alert(data?.message || "Something went wrong!");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }, [latestPackages]);
-
-  const getOfferPackages = useCallback(async () => {
-    try {
-      setLoading(true);
-      const res = await fetch(
-        "/api/package/get-packages?sort=createdAt&offer=true&limit=6"
-      );
-      const data = await res.json();
-      if (data?.success) {
-        setOfferPackages(data?.packages);
-        setLoading(false);
-      } else {
-        setLoading(false);
-        alert(data?.message || "Something went wrong!");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }, [offerPackages]);
+  }, []);
 
   useEffect(() => {
     getTopPackages();
-    getLatestPackages();
-    getOfferPackages();
-  }, []);
+
+    // Counter animation
+    const interval = setInterval(() => {
+      setCounts((prevCounts) => ({
+        places: prevCounts.places < 126 ? prevCounts.places + 1 : 126,
+        reviews: prevCounts.reviews < 486 ? prevCounts.reviews + 5 : 486,
+        clients: prevCounts.clients < 836 ? prevCounts.clients + 8 : 836,
+      }));
+    }, 20);
+
+    return () => clearInterval(interval);
+  }, [getTopPackages]);
 
   return (
-    <div className="main w-full">
+    <div className="main w-full relative">
       <div className="w-full flex flex-col">
-        <div className="backaground_image w-full"></div>
-        <div className="top-part w-full gap-2 flex flex-col">
-          <h1 className="text-white text-4xl text-center font-bold underline mb-2">
-            The Travel Index[0]
-          </h1>
-          <h1 className="text-white text-sm text-center xsm:text-lg font-semibold">
-            Make Your Travel Dream Come True With Our Amazing Packages
-          </h1>
-          <div className="w-full flex justify-center items-center gap-2 mt-8">
-            <input
-              type="text"
-              className="rounded-lg outline-none w-[230px] sm:w-2/5 p-2 border border-black bg-opacity-40 bg-white text-white placeholder:text-white font-semibold"
-              placeholder="Search"
-              value={search}
-              onChange={(e) => {
-                setSearch(e.target.value);
-              }}
-            />
-            <button
-              onClick={() => {
-                navigate(`/search?searchTerm=${search}`);
-              }}
-              className="bg-white w-10 h-10 flex justify-center items-center text-xl font-semibold rounded-full hover:scale-95"
-            >
-              Go
-              {/* <FaSearch className="" /> */}
-            </button>
-          </div>
-          <div className="w-[90%] max-w-xl flex justify-center mt-10">
-            <button
-              onClick={() => {
-                navigate("/search?offer=true");
-              }}
-              className="flex items-center justify-around gap-x-1 bg-slate-400 text-white p-2 py-1 text-[8px] xxsm:text-sm sm:text-lg border-e border-white rounded-s-full flex-1 hover:scale-105 transition-all duration-150"
-            >
-              Best Offers
-              <LuBadgePercent className="text-2xl" />
-            </button>
-            <button
-              onClick={() => {
-                navigate("/search?sort=packageRating");
-              }}
-              className="flex items-center justify-around gap-x-1 bg-slate-400 text-white p-2 py-1 text-[8px] xxsm:text-sm sm:text-lg border-x border-white flex-1 hover:scale-105 transition-all duration-150"
-            >
-              Top Rated
-              <FaStar className="text-2xl" />
-            </button>
-            <button
-              onClick={() => {
-                navigate("/search?sort=createdAt");
-              }}
-              className="flex items-center justify-around gap-x-1 bg-slate-400 text-white p-2 py-1 text-[8px] xxsm:text-sm sm:text-lg border-x border-white flex-1 hover:scale-105 transition-all duration-150"
-            >
-              Latest
-              <FaCalendar className="text-lg" />
-            </button>
-            <button
-              onClick={() => {
-                navigate("/search?sort=packageTotalRatings");
-              }}
-              className="flex items-center justify-around gap-x-1 bg-slate-400 text-white p-2 py-1 text-[8px] xxsm:text-sm sm:text-lg border-s border-white rounded-e-full flex-1 hover:scale-105 transition-all duration-150"
-            >
-              Most Rated
-              <FaRankingStar className="text-2xl" />
-            </button>
+        <div className="video-container w-full h-screen relative">
+          <video
+            autoPlay
+            loop
+            muted
+            className="w-full min-h-[80vh] object-cover absolute"
+          >
+            <source src={homeVideo} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+          <div className="absolute inset-0  bg-black bg-opacity-50  flex flex-col items-center justify-center">
+            <h1 className="text-white text-4xl text-center font-bold mb-4">
+              Discover Your Next Adventure
+            </h1>
+            <div className="flex items-center">
+              <input
+                type="text"
+                className="rounded-l-lg outline-none w-64 p-2 border-t border-b border-l border-gray-300"
+                placeholder="Where do you want to go?"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+              <button
+                onClick={() => navigate(`/search?searchTerm=${search}`)}
+                className="bg-blue-500 text-white p-2 rounded-r-lg hover:bg-blue-600"
+              >
+                <FaSearch />
+              </button>
+            </div>
           </div>
         </div>
-        {/* main page */}
-        <div className="main p-6 flex flex-col gap-5">
-          {loading && <h1 className="text-center text-2xl">Loading...</h1>}
-          {!loading &&
-            topPackages.length === 0 &&
-            latestPackages.length === 0 &&
-            offerPackages.length === 0 && (
-              <h1 className="text-center text-2xl">No Packages Yet!</h1>
-            )}
-          {/* Top Rated */}
-          {!loading && topPackages.length > 0 && (
-            <>
-              <h1 className="text-2xl font-semibold">Top Packages</h1>
-              <div className="grid 2xl:grid-cols-5 xlplus:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 gap-2 my-3">
-                {topPackages.map((packageData, i) => {
-                  return <PackageCard key={i} packageData={packageData} />;
-                })}
+
+        <div className="main p-6 flex flex-col gap-5 pt-32">
+          <ScrollAnimationComponent>
+            <div className="my-12">
+              <h3 className="text-center text-orange-500 font-semibold mb-2">
+                OUR PLACES
+              </h3>
+              <h2 className="text-center text-4xl font-bold mb-8">
+                Explore Our <span className="text-orange-500">PLACES</span>
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {[
+                  {
+                    name: "Gokarna",
+                    season: "Winter",
+                    description:
+                      "This beach town, favored by backpackers and yoga enthusiasts, offers uncrowded beaches in winter with ideal weather for swimming, sunbathing, and surfing.",
+                  },
+                  {
+                    name: "Coorg",
+                    season: "Summer",
+                    description:
+                      "This hill station, renowned for its coffee plantations, and waterfalls, offers pleasant weather in summer, making it an ideal spot for walks, hikes, and bike rides.",
+                  },
+                  {
+                    name: "Agumbe",
+                    season: "Monsoon",
+                    description:
+                      'Known as the "Cherrapunji of the South" for its high rainfall, this town offers a lush, waterfall-rich landscape best experienced during the monsoon season.',
+                  },
+                ].map((place, index) => (
+                  <div
+                    key={index}
+                    className="bg-white rounded-lg shadow-md overflow-hidden"
+                  >
+                    <div className="h-48 bg-gray-300"></div>
+                    <div className="p-4">
+                      <span className="inline-block bg-orange-500 text-white px-2 py-1 rounded-full text-sm mb-2">
+                        {place.season}
+                      </span>
+                      <h3 className="text-xl font-semibold mb-2">
+                        {place.name}
+                      </h3>
+                      <p className="text-gray-600 mb-4">{place.description}</p>
+                      <button className="text-orange-500 font-semibold hover:underline">
+                        VIEW DETAIL
+                      </button>
+                    </div>
+                  </div>
+                ))}
               </div>
-            </>
-          )}
-          {/* Top Rated */}
-          {/* latest */}
-          {!loading && latestPackages.length > 0 && (
-            <>
-              <h1 className="text-2xl font-semibold">Latest Packages</h1>
-              <div className="grid 2xl:grid-cols-5 xlplus:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 gap-2 my-3">
-                {latestPackages.map((packageData, i) => {
-                  return <PackageCard key={i} packageData={packageData} />;
-                })}
+            </div>
+          </ScrollAnimationComponent>
+          <ScrollAnimationComponent>
+            <div className="my-12 bg-white p-8 rounded-lg shadow-md">
+              <h3 className="text-orange-500 font-semibold mb-2">ABOUT US</h3>
+              <h2 className="text-4xl font-bold mb-4">
+                Welcome to <span className="text-orange-500">TRIPLO</span>
+              </h2>
+              <p className="text-gray-600 mb-8">
+                Triplo serve as a digital gateway, opening up the world's
+                wonders to visitors right from their screens. We offer a
+                seamless blend of information, inspiration, and convenience,
+                making travel planning an exciting and effortless experience.
+              </p>
+              <div className="grid grid-cols-3 gap-4 mb-8">
+                {[
+                  { icon: "🏰", label: "Places", count: counts.places },
+                  { icon: "👥", label: "Reviews", count: counts.reviews },
+                  { icon: "🧑‍🤝‍🧑", label: "Clients", count: counts.clients },
+                ].map((stat, index) => (
+                  <div
+                    key={index}
+                    className="text-center border p-4 rounded-lg"
+                  >
+                    <div className="text-3xl mb-2">{stat.icon}</div>
+                    <div className="text-4xl font-bold mb-1">{stat.count}</div>
+                    <div className="text-gray-600">{stat.label}</div>
+                  </div>
+                ))}
               </div>
-            </>
-          )}
-          {/* latest */}
-          {/* offer */}
-          {!loading && offerPackages.length > 0 && (
-            <>
-              <div className="offers_img"></div>
-              <h1 className="text-2xl font-semibold">Best Offers</h1>
-              <div className="grid 2xl:grid-cols-5 xlplus:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 gap-2 my-3">
-                {offerPackages.map((packageData, i) => {
-                  return <PackageCard key={i} packageData={packageData} />;
-                })}
+              <button className="bg-orange-500 text-white px-6 py-2 rounded-lg hover:bg-orange-600 transition duration-300">
+                EXPLORE MORE
+              </button>
+            </div>
+          </ScrollAnimationComponent>
+
+          <div className="main w-full relative">
+            <ScrollAnimationComponent>
+              {/* Destinations Slider */}
+              <div className="relative bg-gray-900 text-white py-16">
+                <div className="container mx-auto px-4">
+                  <h2 className="text-3xl font-bold mb-8 text-center">
+                    Popular Destinations
+                  </h2>
+                  <div className="relative overflow-hidden">
+                    <div
+                      className="flex transition-transform duration-300 ease-in-out"
+                      style={{
+                        transform: `translateX(-${currentSlide * 100}%)`,
+                      }}
+                    >
+                      {destinations.map((dest, index) => (
+                        <div key={index} className="w-full flex-shrink-0">
+                          <div className="bg-white text-black p-6 rounded-lg shadow-lg mx-4">
+                            <h3 className="text-xl font-semibold mb-2">
+                              {dest.name}
+                            </h3>
+                            <p className="text-gray-600 mb-2">{dest.season}</p>
+                            <p>{dest.description}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    <button
+                      onClick={prevSlide}
+                      className="absolute top-1/2 left-0 transform -translate-y-1/2 bg-orange-500 text-white p-2 rounded-full"
+                    >
+                      &lt;
+                    </button>
+                    <button
+                      onClick={nextSlide}
+                      className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-orange-500 text-white p-2 rounded-full"
+                    >
+                      &gt;
+                    </button>
+                  </div>
+                </div>
               </div>
-            </>
-          )}
-          {/* offer */}
+              <div className="bg-white py-16">
+                <div className="container mx-auto px-4">
+                  <h2 className="text-3xl font-bold mb-8 text-center">
+                    Subscribe For{" "}
+                    <span className="text-orange-500">MORE UPDATE</span>
+                  </h2>
+                  <form
+                    onSubmit={handleSubmit}
+                    className="max-w-md mx-auto flex"
+                  >
+                    <input
+                      type="email"
+                      placeholder="Enter your email"
+                      className="flex-grow p-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                    />
+                    <button
+                      type="submit"
+                      className="bg-orange-500 text-white px-4 py-2 rounded-r-lg hover:bg-orange-600 transition duration-300"
+                    >
+                      SUBMIT
+                    </button>
+                  </form>
+                </div>
+              </div>
+
+              {/* Footer */}
+              <footer className="bg-gray-900 text-white py-12">
+                <div className="container mx-auto px-4">
+                  <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+                    <div className="mb-8 md:mb-0">
+                      <h3 className="text-2xl font-bold text-orange-500 mb-4">
+                        TRIPLO
+                      </h3>
+                      <p className="text-sm">
+                        Like Triplo – travels, act as digital portals, offering
+                        a seamless fusion of information and inspiration that
+                        makes exploring the world's wonders and planning travel
+                        from your screen an effortless and exciting experience.
+                      </p>
+                    </div>
+                    <div>
+                      <h4 className="text-lg font-semibold mb-4">CONTACT</h4>
+                      <ul className="space-y-2">
+                        <li>123 Street, Karnataka, INDIA</li>
+                        <li>+919134567890</li>
+                        <li>triplo@gmail.com</li>
+                        <li className="flex space-x-4 mt-4">
+                          <FaTwitter className="text-xl hover:text-orange-500 cursor-pointer" />
+                          <FaFacebook className="text-xl hover:text-orange-500 cursor-pointer" />
+                          <FaYoutube className="text-xl hover:text-orange-500 cursor-pointer" />
+                          <FaLinkedin className="text-xl hover:text-orange-500 cursor-pointer" />
+                        </li>
+                      </ul>
+                    </div>
+                    <div>
+                      <h4 className="text-lg font-semibold mb-4">COMPANY</h4>
+                      <ul className="space-y-2">
+                        <li>
+                          <a href="#" className="hover:text-orange-500">
+                            About Us
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#" className="hover:text-orange-500">
+                            Contact Us
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#" className="hover:text-orange-500">
+                            Privacy Policy
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#" className="hover:text-orange-500">
+                            Terms & Condition
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#" className="hover:text-orange-500">
+                            Support
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                    <div>
+                      <h4 className="text-lg font-semibold mb-4">SERVICES</h4>
+                      <ul className="space-y-2">
+                        <li>
+                          <a href="#" className="hover:text-orange-500">
+                            Food & Restaurant
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#" className="hover:text-orange-500">
+                            Spa & Fitness
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#" className="hover:text-orange-500">
+                            Sports & Gaming
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#" className="hover:text-orange-500">
+                            Event & Party
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#" className="hover:text-orange-500">
+                            GYM & Yoga
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-12 border-t border-gray-800 pt-8">
+                  <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
+                    <p className="text-sm text-gray-400">
+                      © Bangalore, All Right Reserved. Designed By Amigos
+                    </p>
+                    <ul className="flex space-x-4 mt-4 md:mt-0">
+                      <li>
+                        <a
+                          href="#"
+                          className="text-sm text-gray-400 hover:text-orange-500"
+                        >
+                          Home
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="#"
+                          className="text-sm text-gray-400 hover:text-orange-500"
+                        >
+                          Cookies
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="#"
+                          className="text-sm text-gray-400 hover:text-orange-500"
+                        >
+                          Help
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="#"
+                          className="text-sm text-gray-400 hover:text-orange-500"
+                        >
+                          FAQs
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </footer>
+            </ScrollAnimationComponent>
+          </div>
         </div>
       </div>
     </div>

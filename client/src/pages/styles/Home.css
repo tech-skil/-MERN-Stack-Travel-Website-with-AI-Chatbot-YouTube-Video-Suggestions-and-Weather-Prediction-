@@ -1,13 +1,13 @@
 /* body{
     background: red;
 } */
-.backaground_image{
+/* .backaground_image{
     background: url("../../assets/images/bg_jmg1.jpg") no-repeat;
     background-size: cover;
-    /* background-position: 0px 0px; */
+    /* background-position: 0px 0px; 
     filter: brightness(0.7);
     height: 340px;
-}
+} */
 .top-part{
     position: absolute;
     height: 340px;
