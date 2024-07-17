@@ -6,6 +6,8 @@ import { FaSearch } from "react-icons/fa";
 import PackageCard from "./PackageCard";
 import { useNavigate } from "react-router";
 import homeVideo from "../assets/vedios/home.mp4";
+import ChatIcon from "./ChatIcon";
+
 
 const Home = () => {
   const navigate = useNavigate();
@@ -15,6 +17,8 @@ const Home = () => {
   const [counts, setCounts] = useState({ places: 0, reviews: 0, clients: 0 });
   const [email, setEmail] = useState("");
   const [currentSlide, setCurrentSlide] = useState(0);
+
+
 
   const destinations = [
     {
@@ -408,7 +412,9 @@ const Home = () => {
                 </div>
               </footer>
             </ScrollAnimationComponent>
+            
           </div>
+<ChatIcon/>
         </div>
       </div>
     </div>
