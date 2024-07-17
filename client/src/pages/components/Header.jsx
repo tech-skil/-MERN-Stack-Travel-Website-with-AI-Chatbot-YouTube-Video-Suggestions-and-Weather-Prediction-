@@ -18,10 +18,10 @@ const Header = () => {
       <div className="container mx-auto flex flex-wrap justify-between items-center">
         <Link to="/" className="flex items-center">
           <h1 className="text-3xl md:text-5xl font-extrabold relative">
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 to-orange-700">
               Triplo
             </span>
-            <span className="absolute left-0.5 top-0.5 text-white opacity-50">
+            <span className="absolute left-0.5 top-0.5 text-white opacity-15 ">
               Triplo
             </span>
           </h1>
