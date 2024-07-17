@@ -1,4 +1,8 @@
 import React, { useState } from "react";
+import { motion } from 'framer-motion';
+import { Canvas } from '@react-three/fiber';
+import rg from "../assets/rg.avif";
+import { OrbitControls, Sphere } from '@react-three/drei';
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -8,15 +12,15 @@ const Signup = () => {
     username: "",
     email: "",
     password: "",
-    address: "",
-    phone: "",
+    confirmPassword: "",
+    agreeToTerms: false
   });
-  // console.log(formData);
 
   const handleChange = (e) => {
+    const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
     setFormData({
       ...formData,
-      [e.target.id]: e.target.value,
+      [e.target.name]: value,
     });
   };
 
@@ -36,82 +40,85 @@ const Signup = () => {
   };
 
   return (
-    <div
-      className="flex justify-center items-center"
-      style={{
-        width: "100%",
-        height: "90vh",
-        background:
-          "linear-gradient(0deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%)",
-      }}
-    >
-      <form onSubmit={handleSubmit}>
-        <div className="flex flex-col border border-black rounded-lg p-2 w-72 h-fit gap-2 sm:w-[320px] bg-white bg-opacity-60">
-          <h1 className="text-3xl text-center font-semibold">Signup</h1>
-          <div className="flex flex-col">
-            <label htmlFor="username" className="font-semibold">
-              Username:
-            </label>
-            <input
-              type="text"
-              id="username"
-              className="p-1 rounded border border-black bg-white bg-opacity-80"
-              onChange={handleChange}
-            />
-          </div>
-          <div className="flex flex-col">
-            <label htmlFor="email" className="font-semibold">
-              Email:
-            </label>
-            <input
-              type="email"
-              id="email"
-              className="p-1 rounded border border-black bg-white bg-opacity-80"
-              onChange={handleChange}
-            />
-          </div>
-          <div className="flex flex-col">
-            <label htmlFor="password" className="font-semibold">
-              Password:
-            </label>
-            <input
-              type="password"
-              id="password"
-              className="p-1 rounded border border-black bg-white bg-opacity-80"
-              onChange={handleChange}
-            />
-          </div>
-          <div className="flex flex-col">
-            <label htmlFor="address" className="font-semibold">
-              Address:
-            </label>
-            <textarea
-              maxLength={200}
-              type="text"
-              id="address"
-              className="p-1 rounded border border-black resize-none bg-white bg-opacity-80"
-              onChange={handleChange}
-            />
-          </div>
-          <div className="flex flex-col">
-            <label htmlFor="phone" className="font-semibold">
-              Phone:
-            </label>
-            <input
-              type="text"
-              id="phone"
-              className="p-1 rounded border border-black bg-white bg-opacity-80"
-              onChange={handleChange}
-            />
-          </div>
-          <p className="text-blue-700 text-sm hover:underline">
-            <Link to={`/login`}>Have an account? Login</Link>
-          </p>
-          <button className="p-3 text-white bg-slate-700 rounded hover:opacity-95">
-            Signup
-          </button>
+    <div className="min-h-screen bg-white flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl w-full space-y-8 flex flex-col md:flex-row">
+        <motion.div 
+          className="w-full md:w-1/2 pr-0 md:pr-8 mb-8 md:mb-0"
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <h2 className="text-3xl font-bold text-gray-900 mb-6">Sign up</h2>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {[
+              { name: 'username', type: 'text', placeholder: 'Username', icon: '👤' },
+              { name: 'email', type: 'email', placeholder: 'Email', icon: '📧' },
+              { name: 'password', type: 'password', placeholder: 'Password', icon: '🔒' },
+              { name: 'confirmPassword', type: 'password', placeholder: 'Repeat Password', icon: '🔒' }
+            ].map((field) => (
+              <div key={field.name} className="relative">
+                <span className="absolute left-3 top-3">{field.icon}</span>
+                <input
+                  name={field.name}
+                  type={field.type}
+                  required
+                  className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  placeholder={field.placeholder}
+                  value={formData[field.name]}
+                  onChange={handleChange}
+                />
+              </div>
+            ))}
+            <div className="flex items-center">
+              <input
+                type="checkbox"
+                name="agreeToTerms"
+                id="agreeToTerms"
+                checked={formData.agreeToTerms}
+                onChange={handleChange}
+                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+              />
+              <label htmlFor="agreeToTerms" className="ml-2 block text-sm text-gray-900">
+                I agree to terms of service
+              </label>
+            </div>
+            <motion.button
+              type="submit"
+              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Sign up
+            </motion.button>
+            <div className="mt-6 text-center">
+              <p className="text-sm text-gray-600">
+                Already have an account?{' '}
+                <Link to="/login" className="font-medium text-blue-600 hover:text-blue-500">
+                  Sign in
+                </Link>
+              </p>
+            </div>
+          </form>
+        </motion.div>
+        <div className="w-full md:w-1/2 relative h-64 md:h-auto">
+          <Canvas>
+            <OrbitControls enableZoom={false} />
+            <ambientLight intensity={0.5} />
+            <directionalLight position={[-2, 5, 2]} intensity={1} />
+            <Sphere args={[1, 100, 200]} scale={2.5}>
+              <meshStandardMaterial color="#4299E1" wireframe />
+            </Sphere>
+          </Canvas>
+          <motion.img
+            src={rg}
+            alt="Sign up illustration"
+            className="absolute top-0 left-0 w-full h-full object-cover"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+          />
         </div>
-      </form>
+      </div>
     </div>
   );
 };
