@@ -1,10 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { FaPlane, FaPaperPlane, FaVolumeUp, FaVolumeMute, FaWifi, FaTrash, FaMicrophone } from 'react-icons/fa';
+import { FaPlane, FaPaperPlane, FaVolumeUp, FaVolumeMute, FaWifi, FaTrash, FaMicrophone, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { initializeChat, sendMessage } from './GeminiService';
+import { searchYouTubeVideos } from './YouTubeService';
 import scrollLoading from '../../assets/images/scrollLoding.gif';
-// import Home from "../../pages/Home";
-import  "../styles/Home.css";
-  
+import '../styles/Home.css'
+
+const MAX_HISTORY = 500;
+
 const formatResponse = (text) => {
   const sections = text.split('**').filter(s => s.trim()) || text.split('##').filter(s => s.trim());
   let formattedText = '';
@@ -35,6 +37,7 @@ const ChatInterface = () => {
   const messagesEndRef = useRef(null);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isListening, setIsListening] = useState(false);
+  const [videos, setVideos] = useState([]);
 
   useEffect(() => {
     initializeChat();
@@ -53,7 +56,7 @@ const ChatInterface = () => {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('chatMessages', JSON.stringify(messages));
+    localStorage.setItem('chatMessages', JSON.stringify(messages.slice(-MAX_HISTORY)));
   }, [messages]);
 
   const scrollToBottom = () => {
@@ -71,12 +74,13 @@ const ChatInterface = () => {
         timestamp: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
         status: 'sent'
       };
-      setMessages(prevMessages => [...prevMessages, userMessage]);
+      setMessages(prevMessages => [...prevMessages, userMessage].slice(-MAX_HISTORY));
       setInput('');
       setIsLoading(true);
       
       try {
-        const aiResponse = await sendMessage(input);
+        const context = messages.slice(-10).map(m => m.text).join('\n');
+        const aiResponse = await sendMessage(input, context);
         const formattedResponse = formatResponse(aiResponse);
         const botMessage = {
           id: Date.now(),
@@ -85,10 +89,21 @@ const ChatInterface = () => {
           timestamp: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
           isFormatted: true
         };
-        setMessages(prevMessages => [...prevMessages, botMessage]);
+        setMessages(prevMessages => [...prevMessages, botMessage].slice(-MAX_HISTORY));
         speakResponse(stripHtml(formattedResponse));
+
+        const youtubeResults = await searchYouTubeVideos(input);
+        setVideos(youtubeResults);
+        const youtubeMessage = {
+          id: Date.now(),
+          text: `Here are some related YouTube videos:`,
+          user: false,
+          timestamp: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+          isYouTubeSearch: true
+        };
+        setMessages(prevMessages => [...prevMessages, youtubeMessage].slice(-MAX_HISTORY));
       } catch (error) {
-        console.error("Error getting AI response:", error);
+        console.error("Error getting response:", error);
         const errorMessage = {
           id: Date.now(),
           text: "Sorry, Please Check the internet connection and try again.",
@@ -96,7 +111,7 @@ const ChatInterface = () => {
           timestamp: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
           isError: true
         };
-        setMessages(prevMessages => [...prevMessages, errorMessage]);
+        setMessages(prevMessages => [...prevMessages, errorMessage].slice(-MAX_HISTORY));
       } finally {
         setIsLoading(false);
       }
@@ -116,7 +131,7 @@ const ChatInterface = () => {
   };
 
   const speakResponse = (text) => {
-    stopSpeech(); // Stop any ongoing speech
+    stopSpeech();
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'en-IN';
     utterance.onend = () => setIsSpeaking(false);
@@ -135,6 +150,7 @@ const ChatInterface = () => {
   const clearChat = () => {
     setMessages([]);
     setInput('');
+    setVideos([]);
     localStorage.removeItem('chatMessages');
     stopSpeech();
   };
@@ -196,25 +212,26 @@ const ChatInterface = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen backaground_image p-4 pt-24  ">
-      <div className="flex flex-col h-screen w-full md:h-[600px] md:w-[768px]  lg:w-[1024px] opacity-95 bg-white shadow-xl rounded-lg overflow-hidden relative">
+    <div className="flex justify-center items-center min-h-screen backaground_image pt-20 bg-gray-100 p-4">
+      <div className="flex flex-col h-screen w-full md:h-[600px] md:w-[768px] lg:w-[1024px] opacity-95 bg-white shadow-xl rounded-lg overflow-hidden relative">
         {!isOnline && (
           <div className="bg-red-500 text-white p-2 text-center">
             <FaWifi className="inline mr-2" />
             You are offline
           </div>
         )}
-        <div className="bg-blue-600 p-4 flex items-center ">
+        <div className="bg-blue-600 p-4 flex items-center">
           <FaPlane className="text-white mr-2" />
-          <h1 className="text-xl font-semibold text-white">Triplo Travel Guide</h1>
+          <h1 className="text-xl font-semibold text-white">Travel and Tourism Guide</h1>
         </div>
-        <div className="flex-1 overflow-y-auto p-4 space-y-4 ">
+        <div className="flex-1 overflow-y-auto p-4 space-y-4">
           {messages.map((message) => (
             <MessageItem 
               key={message.id} 
               message={message} 
               toggleSpeech={toggleSpeech}
               isSpeaking={isSpeaking}
+              videos={videos}
             />
           ))}
           {isLoading && (
@@ -224,7 +241,7 @@ const ChatInterface = () => {
           )}
           <div ref={messagesEndRef} />
         </div>
-        <div className="bg-gray-50 border-t p-4 ">
+        <div className="bg-gray-50 border-t p-4">
           <div className="flex items-center bg-white rounded-full px-4 py-2 shadow-md">
             <button 
               onClick={toggleListening}
@@ -262,7 +279,7 @@ const ChatInterface = () => {
   );
 };
 
-const MessageItem = ({ message, toggleSpeech, isSpeaking }) => {
+const MessageItem = ({ message, toggleSpeech, isSpeaking, videos }) => {
   const handleSpeechToggle = () => {
     if (message.user || message.isError) return;
     toggleSpeech(message.isFormatted ? stripHtml(message.text) : message.text);
@@ -274,8 +291,21 @@ const MessageItem = ({ message, toggleSpeech, isSpeaking }) => {
     return tmp.textContent || tmp.innerText || '';
   };
 
+  const [scrollPosition, setScrollPosition] = useState(0);
+
+  const handleScroll = (direction) => {
+    const container = document.getElementById('video-container');
+    const scrollAmount = 200; // Adjust this value to control scroll distance
+    if (direction === 'left') {
+      container.scrollLeft -= scrollAmount;
+    } else {
+      container.scrollLeft += scrollAmount;
+    }
+    setScrollPosition(container.scrollLeft);
+  };
+
   return (
-    <div className={`flex  ${message.user ? 'justify-end' : 'justify-start'}`}>
+    <div className={`flex ${message.user ? 'justify-end' : 'justify-start'}`}>
       <div className={`max-w-[70%] px-4 py-2 rounded-lg ${
         message.user ? 'bg-blue-100' : message.isError ? 'bg-red-100' : 'bg-gray-100'
       } relative`}>
@@ -283,6 +313,37 @@ const MessageItem = ({ message, toggleSpeech, isSpeaking }) => {
           <div dangerouslySetInnerHTML={{ __html: message.text }} />
         ) : (
           <p className="text-sm">{message.text}</p>
+        )}
+        {message.isYouTubeSearch && (
+          <div className="mt-4 relative">
+            <button onClick={() => handleScroll('left')} className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-2 shadow-md z-10">
+              <FaChevronLeft />
+            </button>
+            <div id="video-container" className="flex overflow-x-auto space-x-4 pb-4 scrollbar-hide">
+              {videos.map((video) => (
+                <a 
+                  key={video.id.videoId}
+                  href={`https://www.youtube.com/watch?v=${video.id.videoId}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-shrink-0 w-64"
+                >
+                  <div className="border rounded p-2 hover:shadow-lg transition-shadow duration-300">
+                    <img
+                      src={video.snippet.thumbnails.medium.url}
+                      alt={video.snippet.title}
+                      className="w-full mb-2"
+                    />
+                    <h3 className="text-sm font-semibold truncate">{video.snippet.title}</h3>
+                    <p className="text-xs text-gray-600 truncate">{video.snippet.description}</p>
+                  </div>
+                </a>
+              ))}
+            </div>
+            <button onClick={() => handleScroll('right')} className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-2 shadow-md z-10">
+              <FaChevronRight />
+            </button>
+          </div>
         )}
         <div className="text-xs text-gray-500 mt-1 flex justify-between">
           <span>{message.timestamp}</span>
@@ -296,9 +357,6 @@ const MessageItem = ({ message, toggleSpeech, isSpeaking }) => {
             {isSpeaking ? <FaVolumeMute /> : <FaVolumeUp />}
           </button>
         )}
-      {/* <button className='bg-black text-2xl' > 
-        <Link to='/'>Back to home</Link>
-      </button> */}
       </div>
     </div>
   );

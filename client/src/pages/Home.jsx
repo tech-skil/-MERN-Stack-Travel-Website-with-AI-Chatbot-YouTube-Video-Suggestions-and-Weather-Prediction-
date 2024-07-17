@@ -1,13 +1,12 @@
 import React, { useCallback, useEffect, useState } from "react";
 import "./styles/Home.css";
-import { FaTwitter, FaFacebook, FaYoutube, FaLinkedin } from "react-icons/fa";
+import { FaTwitter, FaFacebook, FaYoutube, FaLinkedin, FaSearch } from "react-icons/fa";
 import ScrollAnimationComponent from "./ScrollAnimationComponent";
-import { FaSearch } from "react-icons/fa";
 import PackageCard from "./PackageCard";
 import { useNavigate } from "react-router";
 import homeVideo from "../assets/vedios/home.mp4";
 import ChatIcon from "./ChatIcon";
-
+import axios from 'axios';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -17,53 +16,63 @@ const Home = () => {
   const [counts, setCounts] = useState({ places: 0, reviews: 0, clients: 0 });
   const [currentSlide, setCurrentSlide] = useState(0);
 
+  const [weather, setWeather] = useState(null);
 
+  const fetchWeather = async (place) => {
+    try {
+      const API_KEY = '12d34e4efbef7e5ac4df2aec32510b6f'; // Ensure your .env file has REACT_APP_WEATHER_API_KEY
+      // const API_KEY = import.meta.env.VITE_APP_WEATHER_API_KEY; // Ensure your .env file has REACT_APP_WEATHER_API_KEY
+      const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${place}&appid=${API_KEY}&units=metric`);
+      setWeather(response.data);
+    } catch (error) {
+      console.error('Error fetching weather data:', error);
+      setWeather(null);
+    }
+  };
+
+  const handleSearch = () => {
+    if (search.trim()) {
+      fetchWeather(search);
+    } else {
+      setWeather(null);
+    }
+  };
 
   const destinations = [
     {
       name: "Coorg",
       season: "Summer",
-      description:
-        'Known as the "Cherrapunji of the South" for its high rainfall, this town offers a lush, waterfall-rich landscape best experienced during the monsoon season.',
+      description: 'Known as the "Cherrapunji of the South" for its high rainfall, this town offers a lush, waterfall-rich landscape best experienced during the monsoon season.',
     },
     {
       name: "Gokarna",
       season: "Winter",
-      description:
-        "This beach town, favored by backpackers and yoga enthusiasts, offers uncrowded beaches in winter with ideal weather for swimming, sunbathing, and surfing.",
+      description: "This beach town, favored by backpackers and yoga enthusiasts, offers uncrowded beaches in winter with ideal weather for swimming, sunbathing, and surfing.",
     },
   ];
-
-
 
   const nextSlide = () => {
     setCurrentSlide((prevSlide) => (prevSlide + 1) % destinations.length);
   };
 
   const prevSlide = () => {
-    setCurrentSlide(
-      (prevSlide) => (prevSlide - 1 + destinations.length) % destinations.length
-    );
+    setCurrentSlide((prevSlide) => (prevSlide - 1 + destinations.length) % destinations.length);
   };
-
-  //
 
   const getTopPackages = useCallback(async () => {
     try {
       setLoading(true);
-      const res = await fetch(
-        "/api/package/get-packages?sort=packageRating&limit=8"
-      );
+      const res = await fetch("/api/package/get-packages?sort=packageRating&limit=8");
       const data = await res.json();
       if (data?.success) {
         setTopPackages(data?.packages);
-        setLoading(false);
       } else {
-        setLoading(false);
         alert(data?.message || "Something went wrong!");
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   }, []);
 
@@ -86,37 +95,38 @@ const Home = () => {
     <div className="main w-full relative">
       <div className="w-full flex flex-col">
         <div className="video-container w-full h-screen relative">
-          <video
-            autoPlay
-            loop
-            muted
-            className="w-full min-h-[80vh] object-cover absolute"
-          >
+          <video autoPlay loop muted className="w-full min-h-[80vh] object-cover absolute">
             <source src={homeVideo} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
-          <div className="absolute inset-0  bg-black bg-opacity-50 -mb-32 flex flex-col items-center justify-center">
+          <div className="absolute inset-0 bg-black bg-opacity-50 -mb-32 flex flex-col items-center justify-center">
             <h1 className="text-white text-4xl text-center font-bold mb-4">
-              Discover Your Next Adventure
+            Discover Your Local Temperature in Seconds
             </h1>
-            <div className="flex items-center">
+            <div className="flex items-center mb-4">
               <input
                 type="text"
-                className="rounded-l-lg outline-none w-64 p-2 border-t border-b border-l border-gray-300"
+                className="rounded-l-lg outline-none w-64 p-2 border-t border-b  border-gray-300"
                 placeholder="Where do you want to go?"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
               <button
-                onClick={() => navigate(`/search?searchTerm=${search}`)}
-                className="bg-blue-500 text-white p-2 rounded-r-lg hover:bg-blue-600"
+                onClick={handleSearch}
+                className="bg-orange-500 text-white py-3 px-4 rounded-r-lg hover:bg-orange-600"
               >
                 <FaSearch />
               </button>
             </div>
+            {weather && (
+              <div className="weather-display bg-white bg-opacity-80 p-4 rounded-lg shadow-lg">
+                <h2 className="text-xl font-semibold mb-2">{weather.name}</h2>
+                <p className="text-lg">{Math.round(weather.main.temp)}°C</p>
+                <p className="text-md">{weather.weather[0].description}</p>
+              </div>
+            )}
           </div>
         </div>
-
         <div className="main p-6 flex flex-col gap-5 pt-32">
           <ScrollAnimationComponent>
             <div className="my-12">
@@ -131,26 +141,20 @@ const Home = () => {
                   {
                     name: "Gokarna",
                     season: "Winter",
-                    description:
-                      "This beach town, favored by backpackers and yoga enthusiasts, offers uncrowded beaches in winter with ideal weather for swimming, sunbathing, and surfing.",
+                    description: "This beach town, favored by backpackers and yoga enthusiasts, offers uncrowded beaches in winter with ideal weather for swimming, sunbathing, and surfing.",
                   },
                   {
                     name: "Coorg",
                     season: "Summer",
-                    description:
-                      "This hill station, renowned for its coffee plantations, and waterfalls, offers pleasant weather in summer, making it an ideal spot for walks, hikes, and bike rides.",
+                    description: "This hill station, renowned for its coffee plantations, and waterfalls, offers pleasant weather in summer, making it an ideal spot for walks, hikes, and bike rides.",
                   },
                   {
                     name: "Agumbe",
                     season: "Monsoon",
-                    description:
-                      'Known as the "Cherrapunji of the South" for its high rainfall, this town offers a lush, waterfall-rich landscape best experienced during the monsoon season.',
+                    description: 'Known as the "Cherrapunji of the South" for its high rainfall, this town offers a lush, waterfall-rich landscape best experienced during the monsoon season.',
                   },
                 ].map((place, index) => (
-                  <div
-                    key={index}
-                    className="bg-white rounded-lg shadow-md overflow-hidden"
-                  >
+                  <div key={index} className="bg-white rounded-lg shadow-md overflow-hidden">
                     <div className="h-48 bg-gray-300"></div>
                     <div className="p-4">
                       <span className="inline-block bg-orange-500 text-white px-2 py-1 rounded-full text-sm mb-2">
@@ -187,10 +191,7 @@ const Home = () => {
                   { icon: "👥", label: "Reviews", count: counts.reviews },
                   { icon: "🧑‍🤝‍🧑", label: "Clients", count: counts.clients },
                 ].map((stat, index) => (
-                  <div
-                    key={index}
-                    className="text-center border p-4 rounded-lg"
-                  >
+                  <div key={index} className="text-center border p-4 rounded-lg">
                     <div className="text-3xl mb-2">{stat.icon}</div>
                     <div className="text-4xl font-bold mb-1">{stat.count}</div>
                     <div className="text-gray-600">{stat.label}</div>
@@ -245,11 +246,9 @@ const Home = () => {
                   </div>
                 </div>
               </div>
-
             </ScrollAnimationComponent>
-            
           </div>
-<ChatIcon/>
+          <ChatIcon />
         </div>
       </div>
     </div>
