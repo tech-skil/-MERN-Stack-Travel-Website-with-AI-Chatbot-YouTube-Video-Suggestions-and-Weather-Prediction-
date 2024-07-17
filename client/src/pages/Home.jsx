@@ -96,7 +96,7 @@ const Home = () => {
             <source src={homeVideo} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
-          <div className="absolute inset-0  bg-black bg-opacity-50  flex flex-col items-center justify-center">
+          <div className="absolute inset-0  bg-black bg-opacity-50 -mb-32 flex flex-col items-center justify-center">
             <h1 className="text-white text-4xl text-center font-bold mb-4">
               Discover Your Next Adventure
             </h1>
