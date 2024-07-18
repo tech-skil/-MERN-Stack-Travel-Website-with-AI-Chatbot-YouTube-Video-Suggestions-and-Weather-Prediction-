@@ -1,6 +1,6 @@
 // src/services/geminiService.js
 import { GoogleGenerativeAI } from "@google/generative-ai";
-// import.meta.env
+import.meta.env
 
 // const API_KEY = import.meta.env.VITE_GEMINI_API_KEY || process.env.REACT_APP_GEMINI_API_KEY;
 

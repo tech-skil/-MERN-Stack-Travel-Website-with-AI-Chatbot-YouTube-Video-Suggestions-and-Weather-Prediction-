@@ -97,12 +97,7 @@ const Home = () => {
     <div className="main w-full relative">
       <div className="w-full flex flex-col">
         <div className="video-container w-full h-screen relative">
-          <video
-            autoPlay
-            loop
-            muted
-            className="w-full min-h-[80vh] object-cover absolute"
-          >
+          <video autoPlay loop muted className="w-full min-h-[80vh] object-cover absolute">
             <source src={homeVideo} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
