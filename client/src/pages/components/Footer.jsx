@@ -100,27 +100,27 @@ const Footer = () => {
                 <ul className="space-y-2">
                   <li>
                     <a href="#" className="hover:text-orange-500">
-                      Food & Restaurant
+                    Destination Information
                     </a>
                   </li>
                   <li>
                     <a href="#" className="hover:text-orange-500">
-                      Spa & Fitness
+                    Attraction Recommendations
                     </a>
                   </li>
                   <li>
                     <a href="#" className="hover:text-orange-500">
-                      Sports & Gaming
+                    Travel Planning
                     </a>
                   </li>
                   <li>
                     <a href="#" className="hover:text-orange-500">
-                      Event & Party
+                    Local Events and Activities
                     </a>
                   </li>
                   <li>
                     <a href="#" className="hover:text-orange-500">
-                      GYM & Yoga
+                    Travel Tips and Safety Information
                     </a>
                   </li>
                 </ul>

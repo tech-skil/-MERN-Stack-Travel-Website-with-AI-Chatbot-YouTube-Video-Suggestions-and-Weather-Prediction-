@@ -48,7 +48,7 @@ const App = () => {
           <Route path="/ChatInterface" element={<ChatInterface />} />
       </Routes>
     </BrowserRouter>
-    <Footer/>
+    {/* <Footer/> */}
     </div>
   );
 };
