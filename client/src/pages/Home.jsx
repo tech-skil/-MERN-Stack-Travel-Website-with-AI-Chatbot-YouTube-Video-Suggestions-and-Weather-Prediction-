@@ -9,7 +9,7 @@ import ChatIcon from "./ChatIcon";
 import gokarnaImage from '../assets/images/gokarna.jpg';
 import coorgImage from '../assets/images/coorg.jpeg';
 import AgumbeImage from '../assets/images/Agumbe.jpg';
-
+import { Link } from "react-router-dom";
 const Home = () => {
   const navigate = useNavigate();
   const [topPackages, setTopPackages] = useState([]);
@@ -101,7 +101,7 @@ const Home = () => {
             <source src={homeVideo} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
-          <div className="absolute inset-0 bg-black md:-mb-8 bg-opacity-50 flex flex-col items-center justify-center -mb-32">
+          <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center -mb-32">
             <h1 className="text-white text-4xl text-center font-bold mb-4">
               Discover Current Weather Now
             </h1>
@@ -123,9 +123,9 @@ const Home = () => {
           </div>
         </div>
 
-        <div className="main p-6 flex flex-col gap-5 pt-32">
+        <div className="main p-6 flex flex-col gap-5 pt-32 absolute -inset-2 top-[35rem]">
         <ScrollAnimationComponent>
-            <div className="my-12 bg-white p-8 rounded-lg shadow-md">
+            <div className="my-12 bg-white p-8 mx-20 rounded-lg shadow-md ">
               <h3 className="text-orange-500 font-semibold mb-2">ABOUT US</h3>
               <h2 className="text-4xl font-bold mb-4">
                 Welcome to <span className="text-orange-500">TRIPLO</span>
@@ -146,8 +146,10 @@ const Home = () => {
                   </div>
                 ))}
               </div>
-              <button className="bg-orange-500 text-white px-6 py-2 rounded-lg hover:bg-orange-600 transition duration-300">
-                EXPLORE MORE
+              <button className="bg-orange-500 text-white px-6 py-2 rounded-lg hover:bg-orange-600 transition duration-300" >
+                <Link to='/about'>
+              ABOUT US
+                </Link>
               </button>
             </div>
           </ScrollAnimationComponent>
@@ -185,12 +187,12 @@ const Home = () => {
           </ScrollAnimationComponent>
           
           <ScrollAnimationComponent>
-            <div className="relative bg-gray-900 text-white py-16">
+            <div className="relative bg-gray-900 text-white py-16 ">
               <div className="container mx-auto px-4">
                 <h2 className="text-3xl font-bold mb-8 text-center">
                   Popular Destinations
                 </h2>
-                <div className="relative overflow-hidden">
+                <div className="relative overflow-hidden mx-auto w-3/4">
                   <div className="flex transition-transform duration-300 ease-in-out" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
                     {destinations.map((dest, index) => (
                       <div key={index} className="w-full flex-shrink-0">
