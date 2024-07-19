@@ -16,7 +16,7 @@ const About = () => {
 
   return (
     <div className="w-full flex justify-center bg-gradient-to-b from-gray-50 to-white py-28">
-      <div className="container mx-auto p-4">
+      <div className="container mx-auto p-4 bg-gray-400">
         <motion.section 
           className="bg-white rounded-xl shadow-lg py-12 px-4 sm:px-6 lg:px-8 mb-12"
           initial="initial"
