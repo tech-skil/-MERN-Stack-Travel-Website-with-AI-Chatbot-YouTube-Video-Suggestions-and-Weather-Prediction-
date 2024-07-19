@@ -51,7 +51,7 @@ const Header = () => {
                 Home
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link
                 to="/search"
                 className={`${
@@ -62,7 +62,7 @@ const Header = () => {
               >
                 Packages
               </Link>
-            </li>
+            </li> */}
             <li>
               <Link
                 to="/about"

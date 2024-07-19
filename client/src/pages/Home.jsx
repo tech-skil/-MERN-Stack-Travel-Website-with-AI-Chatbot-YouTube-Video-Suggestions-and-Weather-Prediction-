@@ -94,8 +94,8 @@ const Home = () => {
   const [email, setEmail] = useState("");
 
   return (
-    <div className="main w-full relative">
-      <div className="w-full flex flex-col ">
+    <div className="main w-full relative ">
+      <div className="w-full flex flex-col absolute -inset-1 top-8 ">
         <div className="video-container w-full h-screen relative">
           <video autoPlay loop muted className="w-full min-h-[80vh] object-cover absolute">
             <source src={homeVideo} type="video/mp4" />
