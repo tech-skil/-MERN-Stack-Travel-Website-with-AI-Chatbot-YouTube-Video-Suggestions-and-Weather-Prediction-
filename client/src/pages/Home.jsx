@@ -95,13 +95,13 @@ const Home = () => {
 
   return (
     <div className="main w-full relative">
-      <div className="w-full flex flex-col">
+      <div className="w-full flex flex-col ">
         <div className="video-container w-full h-screen relative">
           <video autoPlay loop muted className="w-full min-h-[80vh] object-cover absolute">
             <source src={homeVideo} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
-          <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center -mb-32">
+          <div className="absolute inset-0 bg-black md:-mb-8 bg-opacity-50 flex flex-col items-center justify-center -mb-32">
             <h1 className="text-white text-4xl text-center font-bold mb-4">
               Discover Your Next Adventure
             </h1>
