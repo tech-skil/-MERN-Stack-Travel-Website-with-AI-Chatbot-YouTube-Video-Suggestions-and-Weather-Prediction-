@@ -10,7 +10,7 @@
     opacity: 0.9;
 } 
 .Allbackaground_image{
-    background: url("../../assets\images\image1.png") no-repeat;
+    background: url("../../assets\images\image2.png") no-repeat;
     background-size: cover;
     /* background-position: 0px 0px; */
     filter: brightness(0.7);
