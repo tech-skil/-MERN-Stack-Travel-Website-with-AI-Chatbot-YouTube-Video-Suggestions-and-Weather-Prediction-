@@ -107,7 +107,7 @@ const Header = () => {
               </li>
             ) : (
               <li>
-                <Link to="/login" className="hover:underline text-white">
+                <Link to="/login" className="hover:from-yellow-500 hover:to-orange-700  ml-10 md:ml-0 py-4 rounded-md bg-gradient-to-r from-yellow-400 to-orange-600 px-2 font-bold text-xl text-white">
                   Sign/Signup
                 </Link>
               </li>
