@@ -19,6 +19,7 @@ import Footer from "./pages/components/Footer";
 // import { Link } from "react-router-dom";
 
 const App = () => {
+  console.log("VITE_GEMINI_API_KEY:", import.meta.env.VITE_GEMINI_API_KEY);
   return (
     <div className="mx-auto lg:container">
     <BrowserRouter>

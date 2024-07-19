@@ -1,22 +1,11 @@
-// src/services/geminiService.js
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import.meta.env
-
-// const API_KEY = import.meta.env.VITE_GEMINI_API_KEY || process.env.REACT_APP_GEMINI_API_KEY;
-
-const API_KEY = 'AIzaSyAZK4HIJI4GtLQPtC8QkqLUrOGbWagsrCA';
-
+console.log("Environment variables:", import.meta.env);
+// Use only the Vite-specific environment variable
+const API_KEY = import.meta.env.VITE_GEMINI_API_KEY || 'AIzaSyAZK4HIJI4GtLQPtC8QkqLUrOGbWagsrCA';
+console.log(API_KEY)
 if (!API_KEY) {
-    console.error("API key is missing!");
-    // Handle the missing API key scenario appropriately
+  throw new Error("Gemini API key not found. Please set VITE_GEMINI_API_KEY in your .env file.");
 }
-
-
-if (!API_KEY) {
-  throw new Error("Gemini API key not found.");
-}
-
-
 
 const genAI = new GoogleGenerativeAI(API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
@@ -38,8 +27,7 @@ const createPrompt = (userInput) => {
 3. One local specialty or unique feature
 4. A nearby day-trip suggestion
 5. A local culture
-
-Keep it concise, friendly , full details, and exciting!`;
+Keep it concise, friendly, full of details, and exciting!`;
 };
 
 const isGreeting = (input) => {
@@ -60,10 +48,11 @@ export const sendMessage = async (userInput) => {
   }
 
   if (isGreeting(userInput)) {
-    return "Hello! \n I'm Triplo, your travel buddy! How can i help you? ";
+    return "Hello! I'm Triplo, your travel buddy! How can I help you?";
   }
 
   const prompt = createPrompt(userInput);
   const result = await chat.sendMessage(prompt);
-  return result.response.text();
+  // Remove '##' from the response
+  return result.response.text().replace(/##/g, '').trim();
 };
