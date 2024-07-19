@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import image7 from "../assets/images/image.PNG";
+import image7 from "../assets/images/images.jpg";
 import image8 from "../assets/images/image8.jpeg";
 import image9 from "../assets/images/images9.jpeg";
 import image10 from "../assets/images/images10.jpeg";
@@ -15,8 +15,8 @@ const About = () => {
   };
 
   return (
-    <div className="w-full flex justify-center bg-gradient-to-b from-gray-50 to-white py-28">
-      <div className="container mx-auto p-4 bg-gray-400">
+    <div className="w-full flex justify-center Allbackaground_image bg-white py-28">
+      <div className="container mx-auto p-4">
         <motion.section 
           className="bg-white rounded-xl shadow-lg py-12 px-4 sm:px-6 lg:px-8 mb-12"
           initial="initial"
@@ -87,59 +87,6 @@ const About = () => {
                   ))}
                 </div>
               </motion.div>
-            </div>
-          </div>
-        </motion.section>
-
-        <motion.section 
-          className="bg-white rounded-xl shadow-lg py-16 px-4 sm:px-6 lg:px-8"
-          initial="initial"
-          animate="animate"
-          variants={fadeIn}
-        >
-          <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-12">
-              <motion.h2 
-                className="text-orange-500 font-semibold mb-2 uppercase"
-                variants={fadeIn}
-              >
-                OUR TEAM
-              </motion.h2>
-              <motion.h1 
-                className="text-3xl sm:text-4xl font-bold"
-                variants={fadeIn}
-              >
-                Explore Our <span className="text-orange-500">STAFF</span>
-              </motion.h1>
-            </div>
-            
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-              {[1, 2, 3, 4].map((member) => (
-                <motion.div 
-                  key={member}
-                  className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300"
-                  whileHover={{ y: -5 }}
-                >
-                  <img src={`path/to/staff${member}.jpg`} alt={`Staff ${member}`} className="w-full h-64 object-cover" />
-                  <div className="p-4">
-                    <div className="flex justify-center space-x-2 mb-4">
-                      {[FaFacebookF, FaTwitter, FaInstagram].map((Icon, index) => (
-                        <motion.a 
-                          key={index}
-                          href="#" 
-                          className="bg-orange-500 text-white p-2 rounded-full hover:bg-orange-600 transition duration-300"
-                          whileHover={{ scale: 1.1 }}
-                          whileTap={{ scale: 0.9 }}
-                        >
-                          <Icon />
-                        </motion.a>
-                      ))}
-                    </div>
-                    <h3 className="text-xl font-semibold text-center">Full Name</h3>
-                    <p className="text-gray-600 text-center">Designation</p>
-                  </div>
-                </motion.div>
-              ))}
             </div>
           </div>
         </motion.section>

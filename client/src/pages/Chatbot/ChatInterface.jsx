@@ -295,7 +295,7 @@ const MessageItem = ({ message, toggleSpeech, isSpeaking, videos }) => {
 
   const handleScroll = (direction) => {
     const container = document.getElementById('video-container');
-    const scrollAmount = 200; // Adjust this value to control scroll distance
+    const scrollAmount = 200; 
     if (direction === 'left') {
       container.scrollLeft -= scrollAmount;
     } else {
@@ -328,7 +328,7 @@ const MessageItem = ({ message, toggleSpeech, isSpeaking, videos }) => {
                   rel="noopener noreferrer"
                   className="flex-shrink-0 w-64"
                 >
-                  <div className="border rounded p-2 hover:shadow-lg transition-shadow duration-300">
+                  <div className="border rounded p-2 hover:shadow-lg  hover:border-red-700 hover:border-2 transition-shadow duration-300">
                     <img
                       src={video.snippet.thumbnails.medium.url}
                       alt={video.snippet.title}
