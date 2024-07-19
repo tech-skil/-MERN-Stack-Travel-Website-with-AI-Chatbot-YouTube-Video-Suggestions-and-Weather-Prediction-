@@ -1,9 +1,13 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
-console.log("Environment variables:", import.meta.env);
-// Use only the Vite-specific environment variable
-const API_KEY = import.meta.env.VITE_GEMINI_API_KEY || 'AIzaSyAZK4HIJI4GtLQPtC8QkqLUrOGbWagsrCA';
-console.log(API_KEY)
+
+console.log("All environment variables:", import.meta.env);
+console.log("VITE_GEMINI_API_KEY:", import.meta.env.VITE_GEMINI_API_KEY);
+
+// const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
+const API_KEY = import.meta.env.VITE_GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY;
+
 if (!API_KEY) {
+  console.error("API_KEY is undefined or empty");
   throw new Error("Gemini API key not found. Please set VITE_GEMINI_API_KEY in your .env file.");
 }
 
@@ -26,7 +30,7 @@ const createPrompt = (userInput) => {
 2. Top 2-3 must-see attractions
 3. One local specialty or unique feature
 4. A nearby day-trip suggestion
-5. A local culture
+5. A local culture tip
 Keep it concise, friendly, full of details, and exciting!`;
 };
 
@@ -52,7 +56,11 @@ export const sendMessage = async (userInput) => {
   }
 
   const prompt = createPrompt(userInput);
-  const result = await chat.sendMessage(prompt);
-  // Remove '##' from the response
-  return result.response.text().replace(/##/g, '').trim();
+  try {
+    const result = await chat.sendMessage(prompt);
+    return result.response.text().replace(/##/g, '').trim();
+  } catch (error) {
+    console.error('Error sending message:', error);
+    return "I'm sorry, there was an error processing your request. Please try again later.";
+  }
 };

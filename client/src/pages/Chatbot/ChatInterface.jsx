@@ -213,7 +213,7 @@ const ChatInterface = () => {
 
   return (
     <div className="flex justify-center items-center min-h-screen backaground_image pt-20 bg-gray-100 p-4">
-      <div className="flex flex-col h-screen w-full md:h-[600px] md:w-[768px] lg:w-[1024px] opacity-95 bg-white shadow-xl rounded-lg overflow-hidden relative">
+      <div className="flex flex-col h-screen w-full md:h-[600px] md:w-[768px] lg:w-[1024px] bg-white  shadow-xl rounded-lg overflow-hidden relative">
         {!isOnline && (
           <div className="bg-red-500 text-white p-2 text-center">
             <FaWifi className="inline mr-2" />
@@ -224,7 +224,7 @@ const ChatInterface = () => {
           <FaPlane className="text-white mr-2" />
           <h1 className="text-xl font-semibold text-white">Travel and Tourism Guide</h1>
         </div>
-        <div className="flex-1 overflow-y-auto p-4 space-y-4">
+        <div className="flex-1 overflow-y-auto p-4 space-y-4 ">
           {messages.map((message) => (
             <MessageItem 
               key={message.id} 

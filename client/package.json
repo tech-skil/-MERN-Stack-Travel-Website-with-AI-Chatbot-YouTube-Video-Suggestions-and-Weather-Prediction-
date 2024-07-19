@@ -22,7 +22,7 @@
     "axios": "^1.6.4",
     "braintree-web-drop-in-react": "^1.2.1",
     "firebase": "^10.7.1",
-    "framer-motion": "^11.3.6",
+    "framer-motion": "^11.3.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.1",
