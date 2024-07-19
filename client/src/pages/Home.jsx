@@ -103,19 +103,19 @@ const Home = () => {
           </video>
           <div className="absolute inset-0 bg-black md:-mb-8 bg-opacity-50 flex flex-col items-center justify-center -mb-32">
             <h1 className="text-white text-4xl text-center font-bold mb-4">
-              Discover Your Next Adventure
+              Discover Current Weather Now
             </h1>
             <div className="flex items-center">
               <input
                 type="text"
-                className="rounded-l-lg outline-none w-64 p-2 border-t border-b border-l border-gray-300"
+                className="rounded-l-lg outline-none w-64 px-2 py-2 border"
                 placeholder="Where do you want to go?"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
               <button
                 onClick={() => navigate(`/search?searchTerm=${search}`)}
-                className="bg-blue-500 text-white p-2 rounded-r-lg hover:bg-blue-600"
+                className="bg-orange-500 text-white px-4 py-3 rounded-r-lg hover:bg-orange-600"
               >
                 <FaSearch />
               </button>
