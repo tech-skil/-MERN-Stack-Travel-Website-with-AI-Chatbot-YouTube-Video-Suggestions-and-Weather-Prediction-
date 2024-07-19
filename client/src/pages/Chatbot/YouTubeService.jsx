@@ -2,7 +2,7 @@ import axios from 'axios';
 
 
 const BASE_URL = 'https://www.googleapis.com/youtube/v3';
-const API_KEY = import.meta.env.VITE_YOUTUBE_API_KEY || 'AIzaSyC6jujrVAv_YC8Fsw8CsF3bacTWY4-ahfw';
+const API_KEY = import.meta.env.VITE_YOUTUBE_API_KEY || process.env.VITE_YOUTUBE_API_KEY;
 
 if (!API_KEY) {
   throw new Error("YouTube API key not found. Please set VITE_YOUTUBE_API_KEY in your .env file.");
