@@ -4,7 +4,7 @@ import ChatIcon from "./ChatIcon";
 
 const About = () => {
   return (
-    <div className="w-full flex justify-center">
+    <div className="w-full flex justify-center Allbackaground_image">
       <div className="w-[90%] max-w-2xl rounded-xl shadow-xl p-3 flex flex-col gap-3">
         <h1 className="text-4xl text-center font-semibold">About</h1>
         <div className="w-max flex flex-col">

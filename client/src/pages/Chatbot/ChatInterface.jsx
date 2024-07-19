@@ -295,7 +295,7 @@ const MessageItem = ({ message, toggleSpeech, isSpeaking, videos }) => {
 
   const handleScroll = (direction) => {
     const container = document.getElementById('video-container');
-    const scrollAmount = 200; // Adjust this value to control scroll distance
+    const scrollAmount = 200; 
     if (direction === 'left') {
       container.scrollLeft -= scrollAmount;
     } else {

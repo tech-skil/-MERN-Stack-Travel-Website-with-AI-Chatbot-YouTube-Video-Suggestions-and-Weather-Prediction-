@@ -52,16 +52,6 @@ const Header = () => {
               </Link>
             </li>
             <li>
-              <Link
-                to="/search"
-                className={`${
-                  location.pathname === "/search"
-                    ? "py-2 px-2 border-orange-600 rounded-md text-orange-700 border-b-2"
-                    : "py-2 px-2 hover:border-orange-600 hover:rounded-md hover:text-orange-500 hover:border-b-2"
-                }`}
-              >
-                Packages
-              </Link>
             </li>
             <li>
               <Link

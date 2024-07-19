@@ -7,9 +7,9 @@ import Header from "./pages/components/Header";
 import Profile from "./pages/Profile";
 import About from "./pages/About";
 import PrivateRoute from "./pages/Routes/PrivateRoute";
-import AdminDashboard from "./pages/admin/AdminDashboard";
+// import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminRoute from "./pages/Routes/AdminRoute";
-import UpdatePackage from "./pages/admin/UpdatePackage";
+// import UpdatePackage from "./pages/admin/UpdatePackage";
 // import Package from "./pages/Package";
 // import RatingsPage from "./pages/RatingsPage";
 // import Booking from "./pages/user/Booking";
@@ -29,15 +29,15 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/search" element={<Search />} />
+        {/* <Route path="/search" element={<Search />} /> */}
         {/* user */}
         <Route path="/profile" element={<PrivateRoute />}>
           <Route path="user" element={<Profile />} />
         </Route>
         {/* admin */}
         <Route path="/profile" element={<AdminRoute />}>
-          <Route path="admin" element={<AdminDashboard />} />
-          <Route path="admin/update-package/:id" element={<UpdatePackage />} />
+          {/* <Route path="admin" element={<AdminDashboard />} />
+          <Route path="admin/update-package/:id" element={<UpdatePackage />} /> */}
         </Route>
         <Route path="/about" element={<About />} />
         {/* <Route path="/package/:id" element={<Package />} />

@@ -5,10 +5,19 @@
     background: url("../../assets/images/bg_jmg1.jpg") no-repeat;
     background-size: cover;
     /* background-position: 0px 0px; */
-    filter: brightness(0.7);
+    filter: brightness(0.9);
     height: 340px;
     opacity: 0.9;
 } 
+.Allbackaground_image{
+    background: url("../../assets\images\image2.png") no-repeat;
+    background-size: cover;
+    /* background-position: 0px 0px; */
+    filter: brightness(0.8);
+    height: 100vh;
+    opacity: 0.9;
+} 
+
 .top-part{
     position: absolute;
     height: 340px;
