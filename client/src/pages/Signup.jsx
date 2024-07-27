@@ -41,8 +41,27 @@ const Signup = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl w-full space-y-8 flex flex-col md:flex-row">
+    <div className="min-h-screen signup_image flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl w-full bg-white py-2 pb-4 filt space-x-10 md:justify-around rounded-xl space-y-8 flex flex-col md:flex-row">
+
+        <div className="w-full md:w-auto relative h-64 md:h-auto">
+          <Canvas>
+            <OrbitControls enableZoom={false} />
+            <ambientLight intensity={0.5} />
+            <directionalLight position={[-2, 5, 2]} intensity={1} />
+            <Sphere args={[1, 100, 200]} scale={2.5}>
+              <meshStandardMaterial color="#4299E1" wireframe />
+            </Sphere>
+          </Canvas>
+          <motion.img
+            src={rg}
+            alt="Sign up illustration"
+            className="absolute top-0 left-0 w-full h-full object-cover"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+          />
+        </div>
         <motion.div
           className="w-full md:w-1/2 pr-0 md:pr-8 mb-8 md:mb-0"
           initial={{ opacity: 0, x: -50 }}
@@ -102,24 +121,6 @@ const Signup = () => {
             </div>
           </form>
         </motion.div>
-        <div className="w-full md:w-1/2 relative h-64 md:h-auto">
-          <Canvas>
-            <OrbitControls enableZoom={false} />
-            <ambientLight intensity={0.5} />
-            <directionalLight position={[-2, 5, 2]} intensity={1} />
-            <Sphere args={[1, 100, 200]} scale={2.5}>
-              <meshStandardMaterial color="#4299E1" wireframe />
-            </Sphere>
-          </Canvas>
-          <motion.img
-            src={rg}
-            alt="Sign up illustration"
-            className="absolute top-0 left-0 w-full h-full object-cover"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2, duration: 0.5 }}
-          />
-        </div>
       </div>
     </div>
   );

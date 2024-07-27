@@ -4,8 +4,10 @@ import image7 from "../assets/images/images.jpg";
 import image8 from "../assets/images/image8.jpeg";
 import image9 from "../assets/images/images9.jpeg";
 import image10 from "../assets/images/images10.jpeg";
+import aboutimg from "../assets/images/signup.jpg";
 import { FaFacebookF, FaTwitter, FaInstagram, FaExternalLinkAlt } from "react-icons/fa";
 import ChatIcon from "./ChatIcon";
+
 
 const About = () => {
   const fadeIn = {
@@ -15,8 +17,14 @@ const About = () => {
   };
 
   return (
-    <div className="w-full flex justify-center Allbackaground_image bg-white py-28">
-      <div className="container mx-auto p-4">
+    <div className="w-full flex justify-center  py-28 relative">
+      <div className='flex flex-col '>
+
+      <div className=' w-[100vw] h-96 -mt-24 relative '>
+          <img src={aboutimg} alt="" srcset="" className=' w-full h-96 opacity-80' />
+          <div><h1 className='uppercase text-4xl font-bold absolute left-1/2 bottom-48 text-orange-600 '>About us</h1></div>
+      </div>
+      <div className="container mx-auto p-4 ">
         <motion.section 
           className="bg-white rounded-xl shadow-lg py-12 px-4 sm:px-6 lg:px-8 mb-12"
           initial="initial"
@@ -93,6 +101,8 @@ const About = () => {
         
         <ChatIcon />
       </div>
+      </div>
+
     </div>
   );
 };

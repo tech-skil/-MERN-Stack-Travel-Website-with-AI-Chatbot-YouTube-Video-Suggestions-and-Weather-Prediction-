@@ -53,7 +53,7 @@ const Footer = () => {
                 </p>
               </div>
               <div className="ml-0 sm:ml-4 lg:ml-10">
-                <h4 className="text-lg font-semibold mb-4">CONTACT</h4> 
+                <h4 className="font-semibold mb-4 text-xl text-orange-500 cursor-pointer hover:underline">CONTACT  </h4> 
                 <ul className="space-y-2">
                   <li>123 Street, Karnataka, INDIA</li>
                   <li>+919134567890</li>
@@ -67,7 +67,7 @@ const Footer = () => {
                 </ul>
               </div>
               <div>
-                <h4 className="text-lg font-semibold mb-4">COMPANY</h4>
+                <h4 className=" font-semibold mb-4 text-xl text-orange-500 cursor-pointer hover:underline">COMPANY <span className="w-16 mx-2  h-[2px] bg-orange-500 "></span> </h4>
                 <ul className="space-y-2">
                   <li><a href="#" className="hover:text-orange-500">About Us</a></li>
                   <li><a href="#" className="hover:text-orange-500">Contact Us</a></li>
@@ -77,7 +77,7 @@ const Footer = () => {
                 </ul>
               </div>
               <div>
-                <h4 className="text-lg font-semibold mb-4">SERVICES</h4>
+                <h4 className="font-semibold mb-4 text-xl text-orange-500 cursor-pointer hover:underline">SERVICES</h4>
                 <ul className="space-y-2">
                   <li><a href="#" className="hover:text-orange-500">Destination Information</a></li>
                   <li><a href="#" className="hover:text-orange-500">Attraction Recommendations</a></li>

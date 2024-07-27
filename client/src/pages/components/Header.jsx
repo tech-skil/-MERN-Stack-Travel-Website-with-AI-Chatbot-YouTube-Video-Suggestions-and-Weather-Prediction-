@@ -7,14 +7,13 @@ const Header = () => {
   const { currentUser } = useSelector((state) => state.user);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
-
   return (
     <header
       style={{
         backgroundColor: "rgba(255, 255, 255, 0.2)",
         backdropFilter: "blur(7px)",
       }}
-      className="fixed top-0 left-0 right-0 z-50 px-3 py-2 md:p-4"
+      className="fixed top-0 left-0 right-0 z-50 px-6  py-2 md:p-4"
     >
       <div className="container mx-auto flex flex-wrap justify-between items-center">
         <Link to="/" className="flex items-center">

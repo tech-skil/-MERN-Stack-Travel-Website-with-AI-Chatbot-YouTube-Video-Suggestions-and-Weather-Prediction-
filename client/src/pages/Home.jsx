@@ -1,12 +1,18 @@
 import React, { useCallback, useEffect, useState } from "react";
 import "./styles/Home.css";
-import { FaTwitter, FaFacebook, FaYoutube, FaLinkedin, FaSearch } from "react-icons/fa";
+import {
+  FaTwitter,
+  FaFacebook,
+  FaYoutube,
+  FaLinkedin,
+  FaSearch,
+} from "react-icons/fa";
 import { useNavigate } from "react-router";
 import homeVideo from "../assets/vedios/home.mp4";
 import ChatIcon from "./ChatIcon";
-import gokarnaImage from '../assets/images/gokarna.jpg';
-import coorgImage from '../assets/images/coorg.jpeg';
-import AgumbeImage from '../assets/images/Agumbe.jpg';
+import gokarnaImage from "../assets/images/gokarna.jpg";
+import coorgImage from "../assets/images/coorg.jpeg";
+import AgumbeImage from "../assets/images/Agumbe.jpg";
 import { Link } from "react-router-dom";
 
 const Home = () => {
@@ -17,6 +23,7 @@ const Home = () => {
   const [counts, setCounts] = useState({ places: 0, reviews: 0, clients: 0 });
   const [currentSlide, setCurrentSlide] = useState(0);
   const [weatherData, setWeatherData] = useState(null);
+  const [error, setError] = useState(null);
 
   const destinations = [
     {
@@ -24,24 +31,24 @@ const Home = () => {
       season: "Summer",
       description:
         'Known as the "Cherrapunji of the South" for its high rainfall, this town offers a lush, waterfall-rich landscape best experienced during the monsoon season.',
-      image: coorgImage
+      image: coorgImage,
     },
     {
       name: "Agumbe",
       season: "Winter",
       description:
         "Agumbe lies in a hilly, wet region of the Western Ghat mountains. This geography contributes to its scenery, and suitability for trekking.",
-      image: AgumbeImage
+      image: AgumbeImage,
     },
     {
       name: "Gokarna",
       season: "Winter",
       description:
         "This beach town, favored by backpackers and yoga enthusiasts, offers uncrowded beaches in winter with ideal weather for swimming, sunbathing, and surfing.",
-      image: gokarnaImage
+      image: gokarnaImage,
     },
   ];
-  
+
   const nextSlide = () => {
     setCurrentSlide((prevSlide) => (prevSlide + 1) % destinations.length);
   };
@@ -86,23 +93,48 @@ const Home = () => {
     return () => clearInterval(interval);
   }, [getTopPackages]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle form submission logic here
-  };
-  const [email, setEmail] = useState("");
-
   const handleWeatherSearch = async () => {
+    if (!search) {
+      setError("Please enter a location");
+      return;
+    }
+
+    setError(null);
+    setWeatherData(null);
+    setLoading(true);
+
     try {
-      const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=London&units=metric&appid=12d34e4efbef7e5ac4df2aec32510b6f`);
-      if (!response.ok) {
-        throw new Error('Weather data not available');
+      // First, get coordinates from the city name using OpenCage Geocoding API
+      const geocodingResponse = await fetch(`https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(search)}&key=YOUR_OPENCAGE_API_KEY`);
+      const geocodingData = await geocodingResponse.json();
+
+      if (geocodingData.results.length === 0) {
+        throw new Error("Location not found");
       }
-      const data = await response.json();
-      setWeatherData(data);
+
+      const { lat, lng } = geocodingData.results[0].geometry;
+
+      // Now use these coordinates to get weather data
+      const weatherResponse = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&units=metric&appid=YOUR_OPENWEATHERMAP_API_KEY`);
+      
+      if (!weatherResponse.ok) {
+        throw new Error(`HTTP error! status: ${weatherResponse.status}`);
+      }
+
+      const weatherData = await weatherResponse.json();
+
+      setWeatherData({
+        city_name: weatherData.name,
+        temp: weatherData.main.temp,
+        weather: {
+          description: weatherData.weather[0].description
+        }
+      });
     } catch (error) {
       console.error("Error fetching weather data:", error);
-      setWeatherData(null);
+      setError("Error fetching weather data. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -110,13 +142,20 @@ const Home = () => {
     <div className="flex flex-col min-h-screen">
       <div className="flex-grow">
         <div className="w-full h-screen relative">
-          <video autoPlay loop muted className="w-full h-full object-cover absolute">
+          <video
+            autoPlay
+            loop
+            muted
+            className="w-full h-full object-cover absolute"
+          >
             <source src={homeVideo} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
           <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center">
             <div className="text-white font-bold flex items-center mb-4">
+              <span className="w-16 mx-2  h-[2px] bg-orange-500 "></span>
               WELCOME TO KARNATAKA
+              <span className="w-16 mx-2  h-[2px] bg-orange-500 "></span>
             </div>
             <h1 className="text-white text-2xl md:text-4xl text-center font-bold mb-4">
               Discover Current Weather Now
@@ -132,20 +171,27 @@ const Home = () => {
               <button
                 onClick={handleWeatherSearch}
                 className="bg-orange-500 text-white px-4 py-2 md:py-3 rounded-r-lg hover:bg-orange-600"
+                disabled={loading}
               >
-                <FaSearch />
+                {loading ? 'Loading...' : <FaSearch />}
               </button>
             </div>
-            {weatherData && weatherData.main && weatherData.weather && (
+            {weatherData && (
               <div className="mt-4 bg-white bg-opacity-80 p-4 rounded-lg">
-                <h2 className="text-xl md:text-2xl font-bold mb-2">{weatherData.name}</h2>
-                <p className="text-base md:text-lg">Temperature: {weatherData.main.temp}°C</p>
-                <p className="text-base md:text-lg">Weather: {weatherData.weather[0].description}</p>
+                <h2 className="text-xl md:text-2xl font-bold mb-2">
+                  {weatherData.city_name}
+                </h2>
+                <p className="text-base md:text-lg">
+                  Temperature: {weatherData.temp}°C
+                </p>
+                <p className="text-base md:text-lg">
+                  Weather: {weatherData.weather.description}
+                </p>
               </div>
             )}
-            {weatherData === null && (
+            {error && (
               <div className="mt-4 bg-red-100 text-red-700 p-4 rounded-lg">
-                Weather data not available. Please try again.
+                {error}
               </div>
             )}
           </div>
@@ -159,8 +205,8 @@ const Home = () => {
             </h2>
             <p className="text-gray-600 mb-8">
               Triplo serves as digital portals, offering a seamless blend of
-              information, inspiration, and convenience, making travel
-              planning an exciting and effortless experience.
+              information, inspiration, and convenience, making travel planning
+              an exciting and effortless experience.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
               {[
@@ -168,12 +214,11 @@ const Home = () => {
                 { icon: "👥", label: "Reviews", count: counts.reviews },
                 { icon: "🧑‍🤝‍🧑", label: "Clients", count: counts.clients },
               ].map((stat, index) => (
-                <div
-                  key={index}
-                  className="text-center border p-4 rounded-lg"
-                >
+                <div key={index} className="text-center border p-4 rounded-lg">
                   <div className="text-3xl mb-2">{stat.icon}</div>
-                  <div className="text-3xl md:text-4xl font-bold mb-1">{stat.count}</div>
+                  <div className="text-3xl md:text-4xl font-bold mb-1">
+                    {stat.count}
+                  </div>
                   <div className="text-gray-600">{stat.label}</div>
                 </div>
               ))}
@@ -205,9 +250,7 @@ const Home = () => {
                     <span className="inline-block bg-orange-500 text-white px-2 py-1 rounded-full text-sm mb-2">
                       {place.season}
                     </span>
-                    <h3 className="text-xl font-semibold mb-2">
-                      {place.name}
-                    </h3>
+                    <h3 className="text-xl font-semibold mb-2">{place.name}</h3>
                     <p className="text-gray-600 mb-4">{place.description}</p>
                     <button className="text-orange-500 font-semibold hover:underline">
                       VIEW DETAIL
@@ -235,7 +278,9 @@ const Home = () => {
                           {dest.name}
                         </h3>
                         <p className="text-gray-600 mb-2">{dest.season}</p>
-                        <p className="text-sm md:text-base">{dest.description}</p>
+                        <p className="text-sm md:text-base">
+                          {dest.description}
+                        </p>
                       </div>
                     </div>
                   ))}
@@ -259,7 +304,6 @@ const Home = () => {
 
         <ChatIcon />
       </div>
-
     </div>
   );
 };
