@@ -319,16 +319,16 @@ const MessageItem = ({ message, toggleSpeech, isSpeaking, videos }) => {
             <button onClick={() => handleScroll('left')} className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-2 shadow-md z-10">
               <FaChevronLeft />
             </button>
-            <div id="video-container" className="flex overflow-x-auto space-x-4 pb-4 scrollbar-hide">
+            <div id="video-container" className="flex overflow-x-auto    space-x-4 pb-4 scrollbar-hide ">
               {videos.map((video) => (
                 <a 
                   key={video.id.videoId}
                   href={`https://www.youtube.com/watch?v=${video.id.videoId}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex-shrink-0 w-64"
+                  className="flex-shrink-0 w-64 "
                 >
-                  <div className="border rounded p-2 hover:shadow-lg  hover:border-red-700 hover:border-2 transition-shadow duration-300">
+                  <div className="border rounded p-2 hover:shadow-lg  hover:border-red-700 hover:border-2  hover:drop-shadow-2xl transition-shadow duration-300">
                     <img
                       src={video.snippet.thumbnails.medium.url}
                       alt={video.snippet.title}

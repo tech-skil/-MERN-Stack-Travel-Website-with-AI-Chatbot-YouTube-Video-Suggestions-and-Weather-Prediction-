@@ -39,20 +39,21 @@ const Footer = () => {
 
         <footer className="bg-gray-900 text-white py-12">
           <div className="container mx-auto px-4">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-              <div className="mb-8 md:mb-0">
-                <h3 className="text-2xl font-bold text-orange-500 mb-4">
+            <div className="grid grid-cols-1 md:grid-cols-4  mx-16 ">
+              <div className="mb-8 md:mb-0 bg-amber-500 rounded-md py-3 px-3">
+                <h3 className="text-4xl font-bold text-white  mb-4 mx-5">
                   TRIPLO
                 </h3>
-                <p className="text-sm">
-                  Like Triplo – travels, act as digital portals, offering a
+                <p className="text-lg mx-5 ">
+                  Like <span className="text-gray-900">Triplo – travels</span>, act as digital portals, offering a
                   seamless fusion of information and inspiration that makes
                   exploring the world's wonders and planning travel from your
                   screen an effortless and exciting experience.
                 </p>
               </div>
-              <div>
-                <h4 className="text-lg font-semibold mb-4">CONTACT</h4>
+
+              <div className="ml-2 md:ml-10">
+                <h4 className="text-lg font-semibold mb-4 ">CONTACT</h4> 
                 <ul className="space-y-2">
                   <li>123 Street, Karnataka, INDIA</li>
                   <li>+919134567890</li>
@@ -125,8 +126,9 @@ const Footer = () => {
                   </li>
                 </ul>
               </div>
+              </div>
+
             </div>
-          </div>
           <div className="mt-12 border-t border-gray-800 pt-8">
             <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
               <p className="text-sm text-gray-400">

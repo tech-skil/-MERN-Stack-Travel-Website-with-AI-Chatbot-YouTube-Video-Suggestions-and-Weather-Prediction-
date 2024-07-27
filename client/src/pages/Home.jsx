@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from "react";
 import "./styles/Home.css";
 import { FaTwitter, FaFacebook, FaYoutube, FaLinkedin, FaSearch } from "react-icons/fa";
-import ScrollAnimationComponent from "./ScrollAnimationComponent";
-import PackageCard from "./PackageCard";
+// import ScrollAnimationComponent from "./ScrollAnimationComponent";
+// import PackageCard from "./PackageCard";
 import { useNavigate } from "react-router";
 import homeVideo from "../assets/vedios/home.mp4";
 import ChatIcon from "./ChatIcon";
@@ -92,7 +92,6 @@ const Home = () => {
     e.preventDefault();
     // Handle form submission logic here
   };
-
   const [email, setEmail] = useState("");
 
   const handleWeatherSearch = async () => {
@@ -119,6 +118,9 @@ const Home = () => {
             Your browser does not support the video tag.
           </video>
           <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center -mb-32">
+            <div className="text-white font-bold flex items-center  ">
+            WELCOME TO KARNATAKA
+            </div>
             <h1 className="text-white text-4xl text-center font-bold mb-4">
               Discover Current Weather Now
             </h1>
@@ -153,7 +155,7 @@ const Home = () => {
         </div>
 
         <div className="main p-6 flex flex-col gap-5 pt-32 absolute -inset-2 top-[35rem]">
-          <ScrollAnimationComponent>
+          {/* <ScrollAnimationComponent> */}
             <div className="my-12 bg-white p-8 mx-20 rounded-lg shadow-md ">
               <h3 className="text-orange-500 font-semibold mb-2">ABOUT US</h3>
               <h2 className="text-4xl font-bold mb-4">
@@ -184,8 +186,8 @@ const Home = () => {
                 <Link to="/about">ABOUT US</Link>
               </button>
             </div>
-          </ScrollAnimationComponent>
-          <ScrollAnimationComponent>
+          {/* </ScrollAnimationComponent> */}
+          {/* <ScrollAnimationComponent> */}
             <div className="my-12">
               <h3 className="text-center text-orange-500 font-semibold mb-2">
                 OUR PLACES
@@ -220,9 +222,9 @@ const Home = () => {
                 ))}
               </div>
             </div>
-          </ScrollAnimationComponent>
+          {/* </ScrollAnimationComponent> */}
 
-          <ScrollAnimationComponent>
+          {/* <ScrollAnimationComponent> */}
             <div className="relative bg-gray-900 text-white py-16 ">
               <div className="container mx-auto px-4">
                 <h2 className="text-3xl font-bold mb-8 text-center">
@@ -260,7 +262,7 @@ const Home = () => {
                 </div>
               </div>
             </div>
-          </ScrollAnimationComponent>
+          {/* </ScrollAnimationComponent> */}
         </div>
 
         <ChatIcon />
