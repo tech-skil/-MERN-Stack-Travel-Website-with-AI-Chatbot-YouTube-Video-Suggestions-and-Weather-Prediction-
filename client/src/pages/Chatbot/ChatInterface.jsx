@@ -56,7 +56,8 @@ const ChatInterface = () => {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('chatMessages', JSON.stringify(messages.slice(-MAX_HISTORY)));
+    const messagesToSave = messages.filter(m => !m.isYouTubeSearch);
+    localStorage.setItem('chatMessages', JSON.stringify(messagesToSave.slice(-MAX_HISTORY)));
   }, [messages]);
 
   const scrollToBottom = () => {
@@ -212,7 +213,7 @@ const ChatInterface = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen backaground_image pt-20 bg-gray-100 p-4">
+    <div className="flex justify-center items-center min-h-screen backaground_image sticky  bg-gray-100 pt-20">
       <div className="flex flex-col h-screen w-full md:h-[600px] md:w-[768px] lg:w-[1024px] bg-white  shadow-xl rounded-lg overflow-hidden relative">
         {!isOnline && (
           <div className="bg-red-500 text-white p-2 text-center">
@@ -319,16 +320,16 @@ const MessageItem = ({ message, toggleSpeech, isSpeaking, videos }) => {
             <button onClick={() => handleScroll('left')} className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-2 shadow-md z-10">
               <FaChevronLeft />
             </button>
-            <div id="video-container" className="flex overflow-x-auto    space-x-4 pb-4 scrollbar-hide ">
+            <div id="video-container" className="flex overflow-x-auto space-x-4 pb-4 scrollbar-hide">
               {videos.map((video) => (
                 <a 
                   key={video.id.videoId}
                   href={`https://www.youtube.com/watch?v=${video.id.videoId}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex-shrink-0 w-64 "
+                  className="flex-shrink-0 w-64 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
-                  <div className="border rounded p-2 hover:shadow-lg  hover:border-red-700 hover:border-2  hover:drop-shadow-2xl transition-shadow duration-300">
+                  <div className="border rounded p-2 hover:shadow-lg hover:border-red-700 hover:border-2 hover:drop-shadow-2xl transition-all duration-300">
                     <img
                       src={video.snippet.thumbnails.medium.url}
                       alt={video.snippet.title}
