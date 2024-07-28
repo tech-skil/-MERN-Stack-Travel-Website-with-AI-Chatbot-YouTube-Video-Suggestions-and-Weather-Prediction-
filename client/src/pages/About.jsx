@@ -25,7 +25,7 @@ const About = () => {
       <div className="relative h-96 overflow-hidden">
         <img src={aboutimg} alt="About Us Hero" className="w-full h-full opacity-60 object-cover" />
         <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <h1 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 to-orange-600 uppercase">About Us</h1>
+          <h1 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 to-orange-600 uppercase border-b-4 p-2">About Us</h1>
         </div>
       </div>
 

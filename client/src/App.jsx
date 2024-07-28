@@ -10,7 +10,7 @@ import PrivateRoute from "./pages/Routes/PrivateRoute";
 import AdminRoute from "./pages/Routes/AdminRoute";
 import ChatInterface  from "./pages/Chatbot/ChatInterface";
 import Footer from "./pages/components/Footer";
-import Contect from "./pages/Contect";
+import Contact from "./pages/Contact";
 import Privacy from "./pages/Privacy";
 
 const App = () => {
@@ -35,7 +35,7 @@ const App = () => {
           <Route path="admin/update-package/:id" element={<UpdatePackage />} /> */}
         </Route>
         <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contect />} />
+        <Route path="/contact" element={<Contact />} />
         <Route path="/privacy" element={<Privacy />} />
 
           <Route path="/ChatInterface" element={<ChatInterface />} />

@@ -70,7 +70,7 @@ const Login = () => {
           <motion.img
             src={loginImage}
             alt="Login illustration"
-            className="absolute top-0  left-0 w-full h-full object-cover"
+            className="absolute top-0 hidden md:block left-0 w-full h-full object-cover"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.5 }}

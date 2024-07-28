@@ -1,6 +1,6 @@
 import React from 'react';
 import ChatIcon from "./ChatIcon";
-
+import contactimg from "../assets/images/signup.jpg";
 const Contact = () => {
   const fadeIn = {
     initial: { opacity: 0, y: 20 },
@@ -9,9 +9,16 @@ const Contact = () => {
   };
 
   return (
-    <div className="w-full flex justify-center Allbackaground_image bg-white py-28">
-      <div className="container mx-auto p-4">
-        <section className="container mx-auto px-4 py-12">
+    <div className="w-full -mb-24  py-28">
+      {/* Hero Section */}
+      <div className="relative h-96 -mt-28 overflow-hidden">
+        <img src={contactimg} alt="About Us Hero" className="w-full opacity-60 h-full object-cover" />
+        <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <h1 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 to-orange-600 uppercase border-b-4 p-2">Contect Us</h1>
+        </div>
+      </div>
+      <div className="container    bg-white">
+        <section className="container mx-auto px-12  py-16 ">
           <div className="text-center mb-10">
             <h2 className="text-orange-500 font-semibold uppercase">CONTACT US</h2>
             <h1 className="text-4xl font-bold mt-2">
