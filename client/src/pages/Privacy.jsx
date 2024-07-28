@@ -1,5 +1,6 @@
 import React from 'react';
 import contactimg from "../assets/images/signup.jpg";
+import ChatIcon from "./ChatIcon";
 const Privacy = () => {
   return (
     <div className=" min-h-screen flex flex-col">
@@ -217,8 +218,9 @@ const Privacy = () => {
       <footer className="bg-gray-100 py-4 text-center">
         <p>&copy; 2024 Triplo. All rights reserved.</p>
       </footer>
+      <ChatIcon/>
     </div>
-
+  
   );
 };
 
