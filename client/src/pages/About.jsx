@@ -44,15 +44,15 @@ const About = () => {
               </p>
               <div className="grid grid-cols-3 gap-6 mb-8">
                 {[
-                  { icon: 'hotel', number: '126', label: 'Places' },
-                  { icon: 'star', number: '486', label: 'Reviews' },
-                  { icon: 'users', number: '836', label: 'Clients' }
+                  { icon: <i className="fas fa-hotel text-orange-500 text-3xl mb-2"></i>, number: '126', label: 'Places' },
+                  { icon: <i className="fas fa-star text-orange-500 text-3xl mb-2"></i>, number: '486', label: 'Reviews' },
+                  { icon: <i className="fas fa-users text-orange-500 text-3xl mb-2"></i>, number: '836', label: 'Clients' }
                 ].map((item, index) => (
                   <div 
                     key={item.label}
                     className="border border-gray-200 rounded-lg p-4 text-center shadow-sm hover:shadow-md transition-shadow duration-300"
                   >
-                    <i className={`fas fa-${item.icon} text-orange-500 text-3xl mb-2`}></i>
+                    {item.icon}
                     <h3 className="text-2xl font-bold">{item.number}</h3>
                     <p className="text-gray-600">{item.label}</p>
                   </div>
