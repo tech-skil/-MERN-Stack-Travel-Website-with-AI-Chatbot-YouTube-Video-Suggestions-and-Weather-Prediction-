@@ -15,6 +15,12 @@ import coorgImage from "../assets/images/coorg.jpeg";
 import AgumbeImage from "../assets/images/Agumbe.jpg";
 import { Link } from "react-router-dom";
 
+const API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
+console.log(API_KEY)
+if (!API_KEY) {
+  throw new Error("API key not found!");
+}
+
 const Home = () => {
   const navigate = useNavigate();
   const [topPackages, setTopPackages] = useState([]);
@@ -59,39 +65,41 @@ const Home = () => {
     );
   };
 
-  const getTopPackages = useCallback(async () => {
-    try {
-      setLoading(true);
-      const res = await fetch(
-        "/api/package/get-packages?sort=packageRating&limit=8"
-      );
-      const data = await res.json();
-      if (data?.success) {
-        setTopPackages(data?.packages);
-        setLoading(false);
-      } else {
-        setLoading(false);
-        alert(data?.message || "Something went wrong!");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
+  // const getTopPackages = useCallback(async () => {
+  //   try {
+  //     setLoading(true);
+  //     const res = await fetch(
+  //       "/api/package/get-packages?sort=packageRating&limit=8"
+  //     );
+  //     const data = await res.json();
+  //     if (data?.success) {
+  //       setTopPackages(data?.packages);
+  //       setLoading(false);
+  //     } else {
+  //       setLoading(false);
+  //       alert(data?.message || "Something went wrong!");
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }, []);
 
-  useEffect(() => {
-    getTopPackages();
+  // useEffect(() => {
+  //   getTopPackages();
 
-    // Counter animation
-    const interval = setInterval(() => {
-      setCounts((prevCounts) => ({
-        places: prevCounts.places < 126 ? prevCounts.places + 1 : 126,
-        reviews: prevCounts.reviews < 486 ? prevCounts.reviews + 5 : 486,
-        clients: prevCounts.clients < 836 ? prevCounts.clients + 8 : 836,
-      }));
-    }, 20);
+  //   // Counter animation
+  //   const interval = setInterval(() => {
+  //     setCounts((prevCounts) => ({
+  //       places: prevCounts.places < 126 ? prevCounts.places + 1 : 126,
+  //       reviews: prevCounts.reviews < 486 ? prevCounts.reviews + 5 : 486,
+  //       clients: prevCounts.clients < 836 ? prevCounts.clients + 8 : 836,
+  //     }));
+  //   }, 20);
 
-    return () => clearInterval(interval);
-  }, [getTopPackages]);
+  //   return () => clearInterval(interval);
+  // }, [getTopPackages]);
+
+  
 
   const handleWeatherSearch = async () => {
     if (!search) {
@@ -104,30 +112,21 @@ const Home = () => {
     setLoading(true);
 
     try {
-      // First, get coordinates from the city name using OpenCage Geocoding API
-      const geocodingResponse = await fetch(`https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(search)}&key=YOUR_OPENCAGE_API_KEY`);
-      const geocodingData = await geocodingResponse.json();
-
-      if (geocodingData.results.length === 0) {
-        throw new Error("Location not found");
-      }
-
-      const { lat, lng } = geocodingData.results[0].geometry;
-
-      // Now use these coordinates to get weather data
-      const weatherResponse = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&units=metric&appid=YOUR_OPENWEATHERMAP_API_KEY`);
+      const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=karnataka&appid=df052e108bd61b2440934a3991e149ff`);
+      console.log(response)
+      // const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(search)}&units=metric&appid=${API_KEY}`);
       
-      if (!weatherResponse.ok) {
-        throw new Error(`HTTP error! status: ${weatherResponse.status}`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const weatherData = await weatherResponse.json();
+      const data = await response.json();
 
       setWeatherData({
-        city_name: weatherData.name,
-        temp: weatherData.main.temp,
+        city_name: data.name,
+        temp: data.main.temp,
         weather: {
-          description: weatherData.weather[0].description
+          description: data.weather[0].description
         }
       });
     } catch (error) {
@@ -151,33 +150,33 @@ const Home = () => {
             <source src={homeVideo} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
-          <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center">
-            <div className="text-white font-bold flex items-center mb-4">
-              <span className="w-16 mx-2  h-[2px] bg-orange-500 "></span>
+          <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center p-4">
+            <div className="text-white font-bold flex items-center mb-4 text-sm md:text-base">
+              <span className="w-8 md:w-16 mx-2 h-[2px] bg-orange-500"></span>
               WELCOME TO KARNATAKA
-              <span className="w-16 mx-2  h-[2px] bg-orange-500 "></span>
+              <span className="w-8 md:w-16 mx-2 h-[2px] bg-orange-500"></span>
             </div>
-            <h1 className="text-white text-2xl md:text-4xl text-center font-bold mb-4">
+            <h1 className="text-white text-xl md:text-4xl text-center font-bold mb-4">
               Discover Current Weather Now
             </h1>
-            <div className="flex items-center">
+            <div className="flex items-center w-full max-w-md">
               <input
                 type="text"
-                className="rounded-l-lg outline-none w-48 md:w-64 px-2 py-2 border"
+                className="rounded-l-lg outline-none w-full px-2 py-2 border"
                 placeholder="Enter city name"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
               <button
                 onClick={handleWeatherSearch}
-                className="bg-orange-500 text-white px-4 py-2 md:py-3 rounded-r-lg hover:bg-orange-600"
+                className="bg-orange-500 text-white px-4 py-3 rounded-r-lg hover:bg-orange-600 transition duration-300"
                 disabled={loading}
               >
                 {loading ? 'Loading...' : <FaSearch />}
               </button>
             </div>
             {weatherData && (
-              <div className="mt-4 bg-white bg-opacity-80 p-4 rounded-lg">
+              <div className="mt-4 bg-transparent blur-xl bg-opacity-80 p-4 rounded-lg w-full max-w-md">
                 <h2 className="text-xl md:text-2xl font-bold mb-2">
                   {weatherData.city_name}
                 </h2>
@@ -190,7 +189,7 @@ const Home = () => {
               </div>
             )}
             {error && (
-              <div className="mt-4 bg-red-100 text-red-700 p-4 rounded-lg">
+              <div className="mt-4 bg-red-100 text-red-700 p-4 rounded-lg w-full max-w-md">
                 {error}
               </div>
             )}
