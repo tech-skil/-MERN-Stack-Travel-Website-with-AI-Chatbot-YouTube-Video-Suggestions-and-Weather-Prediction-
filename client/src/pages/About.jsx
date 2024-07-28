@@ -67,7 +67,7 @@ const About = () => {
               </button>
             </div>
             
-            <div className="lg:w-1/2">
+            <div className="lg:w-1/2 ">
               <div className="grid grid-cols-2 gap-4">
                 <animated.div style={springs} className="w-48 h-48 ml-32 mt-24 mb-3 overflow-hidden">
                   <img 
