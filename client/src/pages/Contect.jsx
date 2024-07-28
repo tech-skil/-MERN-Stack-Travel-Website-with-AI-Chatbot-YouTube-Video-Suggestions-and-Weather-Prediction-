@@ -13,8 +13,8 @@ const Contact = () => {
       {/* Hero Section */}
       <div className="relative h-96 -mt-28 overflow-hidden">
         <img src={contactimg} alt="About Us Hero" className="w-full opacity-60 h-full object-cover" />
-        <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <h1 className="text-5xl font-bold text-orange-500 uppercase">Contect Us</h1>
+        <div className="absolute inset-0 bg-black bg-op acity-50 flex items-center justify-center">
+          <h1 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 to-orange-600 uppercase border-b-4 p-2">Contect Us</h1>
         </div>
       </div>
       <div className="container    bg-white">

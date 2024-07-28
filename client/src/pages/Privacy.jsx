@@ -1,8 +1,15 @@
 import React from 'react';
-
+import contactimg from "../assets/images/signup.jpg";
 const Privacy = () => {
   return (
     <div className=" min-h-screen flex flex-col">
+            <div className="relative h-96  overflow-hidden">
+        <img src={contactimg} alt="About Us Hero" className="w-full opacity-60 h-full object-cover" />
+        <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+        <h1 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 to-orange-600 uppercase">Privacy Policy</h1>
+
+        </div>
+      </div>
     <div className="flex-grow w-full  flex justify-center py-28">
       <div className="p-6 max-w-3xl bg-white w-full">
         <h1 className="text-3xl font-bold mb-4">Privacy Policy</h1>
