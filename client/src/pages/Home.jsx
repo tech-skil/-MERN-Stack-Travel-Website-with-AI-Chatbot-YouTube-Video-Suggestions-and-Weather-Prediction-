@@ -1,8 +1,5 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./styles/Home.css";
-import {
-  FaSearch,
-} from "react-icons/fa";
 import { useNavigate } from "react-router";
 import homeVideo from "../assets/vedios/home.mp4";
 import ChatIcon from "./ChatIcon";
@@ -11,22 +8,12 @@ import coorgImage from "../assets/images/coorg.jpeg";
 import AgumbeImage from "../assets/images/Agumbe.jpg";
 import { Link } from "react-router-dom";
 import { useSpring, animated } from 'react-spring';
-
-const API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
-console.log(API_KEY)
-if (!API_KEY) {
-  throw new Error("API key not found!");
-}
+import WeatherSearch from "./components/WeatherSearch";
 
 const Home = () => {
-  
   const navigate = useNavigate();
   const [topPackages, setTopPackages] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [search, setSearch] = useState("");
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [weatherData, setWeatherData] = useState(null);
-  const [error, setError] = useState(null);
 
   const springs = useSpring({
     from: { opacity: 0, transform: 'scale(0.9)' },
@@ -68,41 +55,6 @@ const Home = () => {
     );
   };
 
-  const handleWeatherSearch = async () => {
-    if (!search) {
-      setError("Please enter a location");
-      return;
-    }
-
-    setError(null);
-    setWeatherData(null);
-    setLoading(true);
-
-    try {
-      const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=karnataka&appid=df052e108bd61b2440934a3991e149ff`);
-      console.log(response)
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-
-      setWeatherData({
-        city_name: data.name,
-        temp: data.main.temp,
-        weather: {
-          description: data.weather[0].description
-        }
-      });
-    } catch (error) {
-      console.error("Error fetching weather data:", error);
-      setError("Error fetching weather data. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
     <div className="flex flex-col min-h-screen">
       <div className="flex-grow">
@@ -125,51 +77,16 @@ const Home = () => {
             <h1 className="text-white text-xl md:text-4xl text-center font-bold mb-4">
               Discover Current Weather Now
             </h1>
-            <div className="flex items-center w-full max-w-sm my-5">
-              <input
-                type="text"
-                className="rounded-l-lg outline-none w-full px-2 py-2 border"
-                placeholder="Enter city name"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-              />
-              <button
-                onClick={handleWeatherSearch}
-                className="bg-orange-500 text-white px-4 py-3 rounded-r-lg hover:bg-orange-600 transition duration-300"
-                disabled={loading}
-              >
-                {loading ? 'Loading...' : <FaSearch />}
-              </button>
-            </div>
-            {weatherData && (
-              <div className="mt-4 bg-transparent blur-xl bg-opacity-80 p-4 rounded-lg w-full max-w-md">
-                <h2 className="text-xl md:text-2xl font-bold mb-2">
-                  {weatherData.city_name}
-                </h2>
-                <p className="text-base md:text-lg">
-                  Temperature: {weatherData.temp}°C
-                </p>
-                <p className="text-base md:text-lg">
-                  Weather: {weatherData.weather.description}
-                </p>
-              </div>
-            )}
-            {error && (
-              <div className="mt-4 bg-red-100 text-red-700 p-4 rounded-lg w-full max-w-md">
-                {error}
-              </div>
-            )}
+            <WeatherSearch />
           </div>
         </div>
-        
 
         <div className="container mx-auto px-4 py-12 ">
           <div className="my-12 bg-white p-4 md:p-8 rounded-lg shadow-md relative">
-          <h2 className="text-2xl pl-5 md:text-5xl font-bold mb-4 absolute top-36">
+            <h2 className="text-2xl pl-5 md:text-5xl font-bold mb-4 absolute top-36">
               Welcome to <span className="text-orange-500">TRIPLO</span>
             </h2> 
             <div className="flex flex-col lg:flex-row-reverse ">
-              
               <div className="lg:w-1/2 mb-8 lg:mb-0 lg:mr-8 ">
                 <div className="grid grid-cols-2 gap-4 ">
                   <animated.div style={springs} className="w-48 h-48 ml-36 mt-24 mb-3 overflow-hidden">
