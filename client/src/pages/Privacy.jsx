@@ -2,10 +2,12 @@ import React from 'react';
 
 const Privacy = () => {
   return (
-    <div className="w-full flex justify-center Allbackaground_image bg-white py-28">
-      <div className="p-6 max-w-3xl mx-auto">
+    <div className=" min-h-screen flex flex-col">
+    <div className="flex-grow w-full  flex justify-center py-28">
+      <div className="p-6 max-w-3xl bg-white w-full">
         <h1 className="text-3xl font-bold mb-4">Privacy Policy</h1>
         <p className="text-sm text-gray-600 mb-6">Last updated: July 19, 2024</p>
+        
         <p className="mb-6">
           This Privacy Policy describes Our policies and procedures on the collection, use, and disclosure of Your information when You use the Service and tells You about Your privacy rights and how the law protects You.
         </p>
@@ -198,14 +200,19 @@ const Privacy = () => {
       </p>
 
       <h2 className="text-2xl font-semibold mt-8 mb-4">Contact Us</h2>
-      <p className="mb-6">
-        If you have any questions about this Privacy Policy, You can contact us:
-      </p>
-      <ul className="list-disc list-inside mb-6">
-        <li>By email: <a href="mailto:triplo@gmail.com" className="text-blue-600 hover:underline">triplo@gmail.com</a></li>
-      </ul>
+          <p className="mb-6">
+            If you have any questions about this Privacy Policy, You can contact us:
+          </p>
+          <ul className="list-disc list-inside mb-6">
+            <li>By email: <a href="mailto:triplo@gmail.com" className="text-blue-600 hover:underline">triplo@gmail.com</a></li>
+          </ul>
+        </div>
+      </div>
+      <footer className="bg-gray-100 py-4 text-center">
+        <p>&copy; 2024 Triplo. All rights reserved.</p>
+      </footer>
     </div>
-    </div>
+
   );
 };
 

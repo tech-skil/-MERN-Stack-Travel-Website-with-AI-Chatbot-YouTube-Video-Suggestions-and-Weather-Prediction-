@@ -10,7 +10,7 @@ import { motion } from 'framer-motion';
 import { Canvas } from '@react-three/fiber';
 import loginImage from "../assets/rg.avif"; 
 import { OrbitControls, Sphere } from '@react-three/drei';
-
+import './styles/Home.css'
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -54,8 +54,9 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl w-full space-y-8 flex flex-col-reverse md:flex-row-reverse">
+    <div className="signin_image">
+    <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl w-full space-y-8 flex bg-white drop-shadow-2xl shadow-black px-10 rounded-lg    py-5 flex-col-reverse md:flex-row-reverse">
         <div className="w-full md:w-1/2 relative h-64 md:h-auto">
           <Canvas>
             <OrbitControls enableZoom={false} />
@@ -147,6 +148,7 @@ const Login = () => {
           </form>
         </motion.div>
       </div>
+    </div>
     </div>
   );
 };

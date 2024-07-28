@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { FaPlane, FaPaperPlane, FaVolumeUp, FaVolumeMute, FaWifi, FaTrash, FaMicrophone, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { FaPlane, FaPaperPlane, FaVolumeUp, FaVolumeMute, FaWifi, FaTrash, FaMicrophone, FaChevronLeft, FaChevronRight, FaCog } from 'react-icons/fa';
 import { initializeChat, sendMessage } from './GeminiService';
 import { searchYouTubeVideos } from './YouTubeService';
 import scrollLoading from '../../assets/images/scrollLoding.gif';
@@ -13,17 +13,22 @@ const formatResponse = (text) => {
   
   sections.forEach((section, index) => {
     if (index === 0) {
-      formattedText += `<h3 class="text-xl font-semibold mb-2">${section.trim()}</h3>`;
+      formattedText += `<h3 class="text-base sm:text-lg md:text-xl font-semibold mb-2">${section.trim()}</h3>`;
     } else if (section.includes(':')) {
       const [header, content] = section.split(':');
-      formattedText += `<h4 class="text-lg font-semibold mt-3 mb-1">${header.trim()}:</h4>`;
-      formattedText += `<p class="mb-2">${content.trim().replace(/\*/g, '')}</p>`;
+      formattedText += `<h4 class="text-sm sm:text-base md:text-lg font-semibold mt-3 mb-1">${header.trim()}:</h4>`;
+      formattedText += `<p class="text-xs sm:text-sm md:text-base mb-2">${content.trim().replace(/\*/g, '')}</p>`;
     } else {
-      formattedText += `<p class="mb-2">${section.trim().replace(/\*/g, '')}</p>`;
+      formattedText += `<p class="text-xs sm:text-sm md:text-base mb-2">${section.trim().replace(/\*/g, '')}</p>`;
     }
   });
 
   return formattedText;
+};
+
+const isGreeting = (input) => {
+  const greetings = ['hi', 'hello', 'hey', 'greetings', 'howdy'];
+  return greetings.some(greeting => input.toLowerCase().includes(greeting));
 };
 
 const ChatInterface = () => {
@@ -37,7 +42,32 @@ const ChatInterface = () => {
   const messagesEndRef = useRef(null);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isListening, setIsListening] = useState(false);
-  const [videos, setVideos] = useState([]);
+  const [videos, setVideos] = useState(() => {
+    const savedVideos = localStorage.getItem('youtubeVideos');
+    return savedVideos ? JSON.parse(savedVideos) : [];
+  });
+  const [showSettings, setShowSettings] = useState(false);
+  const [availableVoices, setAvailableVoices] = useState([]);
+  const [selectedVoice, setSelectedVoice] = useState(() => {
+    return localStorage.getItem('selectedVoice') || 'default';
+  });
+
+  const indianVoices = [
+    "hi-IN-Standard-A", // Hindi female
+    "hi-IN-Standard-B", // Hindi male
+    "hi-IN-Standard-C", // Hindi female
+    "hi-IN-Standard-D", // Hindi male
+    "en-IN-Standard-A", // Indian English female
+    "en-IN-Standard-B", // Indian English male
+    "en-IN-Standard-C", // Indian English female
+    "en-IN-Standard-D", // Indian English male
+    "ta-IN-Standard-A", // Tamil female
+    "ta-IN-Standard-B", // Tamil male
+    "te-IN-Standard-A", // Telugu female
+    "te-IN-Standard-B", // Telugu male
+    "ml-IN-Standard-A", // Malayalam female
+    "ml-IN-Standard-B", // Malayalam male
+  ];
 
   useEffect(() => {
     initializeChat();
@@ -48,16 +78,32 @@ const ChatInterface = () => {
     window.addEventListener('online', handleOnline);
     window.addEventListener('offline', handleOffline);
 
+    const loadVoices = () => {
+      const voices = window.speechSynthesis.getVoices();
+      const filteredVoices = voices.filter(voice => 
+        voice.lang.startsWith('en') || indianVoices.includes(voice.name)
+      );
+      setAvailableVoices(filteredVoices);
+    };
+
+    window.speechSynthesis.onvoiceschanged = loadVoices;
+    loadVoices(); // Initial load
+
     return () => {
       window.removeEventListener('online', handleOnline);
       window.removeEventListener('offline', handleOffline);
       window.speechSynthesis.cancel();
+      window.speechSynthesis.onvoiceschanged = null;
     };
   }, []);
 
   useEffect(() => {
     localStorage.setItem('chatMessages', JSON.stringify(messages.slice(-MAX_HISTORY)));
   }, [messages]);
+
+  useEffect(() => {
+    localStorage.setItem('youtubeVideos', JSON.stringify(videos));
+  }, [videos]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -79,9 +125,15 @@ const ChatInterface = () => {
       setIsLoading(true);
       
       try {
-        const context = messages.slice(-10).map(m => m.text).join('\n');
-        const aiResponse = await sendMessage(input, context);
-        const formattedResponse = formatResponse(aiResponse);
+        let response;
+        if (isGreeting(input)) {
+          response = "Hello! I'm Triplo, your travel buddy! How can I help you plan your next adventure?";
+        } else {
+          const context = messages.slice(-10).map(m => m.text).join('\n');
+          response = await sendMessage(input, context);
+        }
+
+        const formattedResponse = formatResponse(response);
         const botMessage = {
           id: Date.now(),
           text: formattedResponse,
@@ -92,16 +144,20 @@ const ChatInterface = () => {
         setMessages(prevMessages => [...prevMessages, botMessage].slice(-MAX_HISTORY));
         speakResponse(stripHtml(formattedResponse));
 
-        const youtubeResults = await searchYouTubeVideos(input);
-        setVideos(youtubeResults);
-        const youtubeMessage = {
-          id: Date.now(),
-          text: `Here are some related YouTube videos:`,
-          user: false,
-          timestamp: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
-          isYouTubeSearch: true
-        };
-        setMessages(prevMessages => [...prevMessages, youtubeMessage].slice(-MAX_HISTORY));
+        if (!isGreeting(input)) {
+          const youtubeResults = await searchYouTubeVideos(input);
+          setVideos(youtubeResults);
+          if (youtubeResults.length > 0) {
+            const youtubeMessage = {
+              id: Date.now(),
+              text: `Here are some related YouTube videos:`,
+              user: false,
+              timestamp: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+              isYouTubeSearch: true
+            };
+            setMessages(prevMessages => [...prevMessages, youtubeMessage].slice(-MAX_HISTORY));
+          }
+        }
       } catch (error) {
         console.error("Error getting response:", error);
         const errorMessage = {
@@ -133,7 +189,15 @@ const ChatInterface = () => {
   const speakResponse = (text) => {
     stopSpeech();
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'en-IN';
+    
+    if (selectedVoice !== 'default') {
+      const voice = availableVoices.find(v => v.name === selectedVoice);
+      if (voice) {
+        utterance.voice = voice;
+        utterance.lang = voice.lang; // Set the language to match the voice
+      }
+    }
+
     utterance.onend = () => setIsSpeaking(false);
     utterance.onstart = () => setIsSpeaking(true);
     window.speechSynthesis.speak(utterance);
@@ -152,6 +216,7 @@ const ChatInterface = () => {
     setInput('');
     setVideos([]);
     localStorage.removeItem('chatMessages');
+    localStorage.removeItem('youtubeVideos');
     stopSpeech();
   };
 
@@ -211,20 +276,72 @@ const ChatInterface = () => {
     }
   };
 
+  const toggleSettings = () => {
+    setShowSettings(!showSettings);
+  };
+
+  const handleVoiceChange = (e) => {
+    setSelectedVoice(e.target.value);
+    localStorage.setItem('selectedVoice', e.target.value);
+  };
+
   return (
-    <div className="flex justify-center items-center min-h-screen backaground_image pt-20 bg-gray-100 p-4">
-      <div className="flex flex-col h-screen w-full md:h-[600px] md:w-[768px] lg:w-[1024px] bg-white  shadow-xl rounded-lg overflow-hidden relative">
+    <div className="flex justify-center items-center min-h-screen backaground_image sticky bg-gray-100 pt-20">
+      <div className="flex flex-col h-screen w-full md:h-[600px] md:w-[768px] lg:w-[1024px] bg-white shadow-xl rounded-lg overflow-hidden relative">
         {!isOnline && (
           <div className="bg-red-500 text-white p-2 text-center">
             <FaWifi className="inline mr-2" />
             You are offline
           </div>
         )}
-        <div className="bg-blue-600 p-4 flex items-center">
-          <FaPlane className="text-white mr-2" />
-          <h1 className="text-xl font-semibold text-white">Travel and Tourism Guide</h1>
+        <div className="bg-blue-600 p-4 flex items-center justify-between">
+          <div className="flex items-center">
+            <FaPlane className="text-white mr-2" />
+            <h1 className="text-lg sm:text-xl md:text-2xl font-semibold text-white">Travel and Tourism Guide</h1>
+          </div>
+          <button 
+            onClick={toggleSettings}
+            className="text-white hover:text-gray-200"
+          >
+            <FaCog />
+          </button>
         </div>
-        <div className="flex-1 overflow-y-auto p-4 space-y-4 ">
+        {showSettings && (
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-4 shadow-md rounded-lg z-10">
+            <h2 className="text-lg font-semibold mb-2">Settings</h2>
+            <label className="block mb-2">
+              Text-to-Speech Voice:
+              <select 
+                value={selectedVoice} 
+                onChange={handleVoiceChange}
+                className="ml-2 p-1 border rounded"
+              >
+                <option value="default">Default</option>
+                <optgroup label="English Voices">
+                  {availableVoices.filter(voice => voice.lang.startsWith('en') && !voice.name.includes('IN-Standard')).map((voice) => (
+                    <option key={voice.name} value={voice.name}>
+                      {voice.name}
+                    </option>
+                  ))}
+                </optgroup>
+                <optgroup label="Indian Voices">
+                  {availableVoices.filter(voice => indianVoices.includes(voice.name)).map((voice) => (
+                    <option key={voice.name} value={voice.name}>
+                      {voice.name.replace(/-Standard-[A-D]/, '')} ({voice.lang})
+                    </option>
+                  ))}
+                </optgroup>
+              </select>
+            </label>
+            <button 
+              onClick={() => setShowSettings(false)}
+              className="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+            >
+              Save
+            </button>
+          </div>
+        )}
+        <div className="flex-1 overflow-y-auto p-4 space-y-4">
           {messages.map((message) => (
             <MessageItem 
               key={message.id} 
@@ -254,7 +371,7 @@ const ChatInterface = () => {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyPress={handleKeyPress}
-              className="flex-1 bg-transparent outline-none"
+              className="flex-1 bg-transparent outline-none text-sm sm:text-base"
               placeholder="Type a message..."
               disabled={isLoading || !isOnline}
             />
@@ -310,9 +427,9 @@ const MessageItem = ({ message, toggleSpeech, isSpeaking, videos }) => {
         message.user ? 'bg-blue-100' : message.isError ? 'bg-red-100' : 'bg-gray-100'
       } relative`}>
         {message.isFormatted ? (
-          <div dangerouslySetInnerHTML={{ __html: message.text }} />
+          <div dangerouslySetInnerHTML={{ __html: message.text }} className="text-xs sm:text-sm md:text-base" />
         ) : (
-          <p className="text-sm">{message.text}</p>
+          <p className="text-xs sm:text-sm md:text-base">{message.text}</p>
         )}
         {message.isYouTubeSearch && (
           <div className="mt-4 relative">
@@ -326,15 +443,15 @@ const MessageItem = ({ message, toggleSpeech, isSpeaking, videos }) => {
                   href={`https://www.youtube.com/watch?v=${video.id.videoId}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex-shrink-0 w-64"
+                  className="flex-shrink-0 w-48 sm:w-56 md:w-64 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
-                  <div className="border rounded p-2 hover:shadow-lg  hover:border-red-700 hover:border-2 transition-shadow duration-300">
+                  <div className="border rounded p-2 hover:shadow-lg hover:border-red-700 hover:border-2 hover:drop-shadow-2xl transition-all duration-300">
                     <img
                       src={video.snippet.thumbnails.medium.url}
                       alt={video.snippet.title}
                       className="w-full mb-2"
                     />
-                    <h3 className="text-sm font-semibold truncate">{video.snippet.title}</h3>
+                    <h3 className="text-xs sm:text-sm md:text-base font-semibold truncate">{video.snippet.title}</h3>
                     <p className="text-xs text-gray-600 truncate">{video.snippet.description}</p>
                   </div>
                 </a>
