@@ -4,7 +4,7 @@ import image7 from "../assets/images/images.jpg";
 import image8 from "../assets/images/image8.jpeg";
 import image9 from "../assets/images/images9.jpeg";
 import image10 from "../assets/images/images10.jpeg";
-import aboutimg from "../assets/images/signup.jpg";
+import aboutimg from "../assets/images/baground.jpg";
 import { FaFacebookF, FaTwitter, FaInstagram, FaExternalLinkAlt } from "react-icons/fa";
 import ChatIcon from "./ChatIcon";
 
@@ -28,9 +28,8 @@ const About = () => {
           <h1 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 to-orange-600 uppercase border-b-4 p-2">About Us</h1>
         </div>
       </div>
-
       {/* Main Content */}
-      <div className="container mx-auto px-4 py-16 hi">
+      <div className="container mx-auto px-4 py-16 hi"> 
         <section className="bg-white rounded-xl shadow-lg py-12 pl-20 px-8 mb-12">
           <h2 className="text-orange-500 font-semibold mb-2">ABOUT US</h2>
           <h1 className="text-4xl font-bold mb-6">

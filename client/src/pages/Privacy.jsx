@@ -1,5 +1,5 @@
 import React from 'react';
-import contactimg from "../assets/images/signup.jpg";
+import contactimg from "../assets/images/Agumbe.jpg";
 import ChatIcon from "./ChatIcon";
 const Privacy = () => {
   return (

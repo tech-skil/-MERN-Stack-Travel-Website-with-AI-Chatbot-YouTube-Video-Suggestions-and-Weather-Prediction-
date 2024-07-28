@@ -105,7 +105,7 @@ export const sendMessage = async (userInput) => {
   }
 
   if (isGreeting(userInput)) {
-    const greeting = "Hello! I'm Triplo, your travel buddy! How can I help you plan your next adventure?";
+    const greeting = "Hello! I'm Triplo, your travel buddy! How can I Assist you today?";
     chatHistory.push({ role: "model", parts: greeting });
     return greeting;
   }

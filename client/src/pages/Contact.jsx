@@ -1,6 +1,6 @@
 import React from 'react';
 import ChatIcon from "./ChatIcon";
-import contactimg from "../assets/images/signup.jpg";
+import contactimg from "../assets/images/front.jpg";
 const Contact = () => {
   const fadeIn = {
     initial: { opacity: 0, y: 20 },

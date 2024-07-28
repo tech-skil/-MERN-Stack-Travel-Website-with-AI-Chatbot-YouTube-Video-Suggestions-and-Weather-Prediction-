@@ -18,7 +18,7 @@
     /* opacity: 0.9; */
 } 
 .signin_image{
-    background: url("../../assets\images\signin.jpg") no-repeat;
+    background: url("../../assets\images\giphy.webp") no-repeat;
     background-size: cover;
     /* background-position: 0px 0px; */
     /* filter: brightness(0.7); */
@@ -26,7 +26,7 @@
     /* opacity: 0.9; */
 } 
 .signup_image{
-    background: url("../../assets\images\signup.jpg") no-repeat;
+    background: url("../../assets\images\carousel-2.jpg") no-repeat;
     background-size: cover;
     /* background-position: 0px 0px; */
     /* filter: brightness(0.7); */
