@@ -52,6 +52,23 @@ const ChatInterface = () => {
     return localStorage.getItem('selectedVoice') || 'default';
   });
 
+  const indianVoices = [
+    "hi-IN-Standard-A", // Hindi female
+    "hi-IN-Standard-B", // Hindi male
+    "hi-IN-Standard-C", // Hindi female
+    "hi-IN-Standard-D", // Hindi male
+    "en-IN-Standard-A", // Indian English female
+    "en-IN-Standard-B", // Indian English male
+    "en-IN-Standard-C", // Indian English female
+    "en-IN-Standard-D", // Indian English male
+    "ta-IN-Standard-A", // Tamil female
+    "ta-IN-Standard-B", // Tamil male
+    "te-IN-Standard-A", // Telugu female
+    "te-IN-Standard-B", // Telugu male
+    "ml-IN-Standard-A", // Malayalam female
+    "ml-IN-Standard-B", // Malayalam male
+  ];
+
   useEffect(() => {
     initializeChat();
 
@@ -63,7 +80,10 @@ const ChatInterface = () => {
 
     const loadVoices = () => {
       const voices = window.speechSynthesis.getVoices();
-      setAvailableVoices(voices.filter(voice => voice.lang.startsWith('en')));
+      const filteredVoices = voices.filter(voice => 
+        voice.lang.startsWith('en') || indianVoices.includes(voice.name)
+      );
+      setAvailableVoices(filteredVoices);
     };
 
     window.speechSynthesis.onvoiceschanged = loadVoices;
@@ -174,6 +194,7 @@ const ChatInterface = () => {
       const voice = availableVoices.find(v => v.name === selectedVoice);
       if (voice) {
         utterance.voice = voice;
+        utterance.lang = voice.lang; // Set the language to match the voice
       }
     }
 
@@ -296,11 +317,20 @@ const ChatInterface = () => {
                 className="ml-2 p-1 border rounded"
               >
                 <option value="default">Default</option>
-                {availableVoices.map((voice) => (
-                  <option key={voice.name} value={voice.name}>
-                    {voice.name}
-                  </option>
-                ))}
+                <optgroup label="English Voices">
+                  {availableVoices.filter(voice => voice.lang.startsWith('en') && !voice.name.includes('IN-Standard')).map((voice) => (
+                    <option key={voice.name} value={voice.name}>
+                      {voice.name}
+                    </option>
+                  ))}
+                </optgroup>
+                <optgroup label="Indian Voices">
+                  {availableVoices.filter(voice => indianVoices.includes(voice.name)).map((voice) => (
+                    <option key={voice.name} value={voice.name}>
+                      {voice.name.replace(/-Standard-[A-D]/, '')} ({voice.lang})
+                    </option>
+                  ))}
+                </optgroup>
               </select>
             </label>
             <button 
@@ -383,7 +413,6 @@ const MessageItem = ({ message, toggleSpeech, isSpeaking, videos }) => {
   const handleScroll = (direction) => {
     const container = document.getElementById('video-container');
     const scrollAmount = 200; 
-
     if (direction === 'left') {
       container.scrollLeft -= scrollAmount;
     } else {

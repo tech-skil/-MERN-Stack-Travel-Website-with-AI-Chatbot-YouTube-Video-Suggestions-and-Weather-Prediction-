@@ -7,16 +7,11 @@ import Header from "./pages/components/Header";
 import Profile from "./pages/Profile";
 import About from "./pages/About";
 import PrivateRoute from "./pages/Routes/PrivateRoute";
-// import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminRoute from "./pages/Routes/AdminRoute";
-// import UpdatePackage from "./pages/admin/UpdatePackage";
-// import Package from "./pages/Package";
-// import RatingsPage from "./pages/RatingsPage";
-// import Booking from "./pages/user/Booking";
-// import Search from "./pages/Search";
 import ChatInterface  from "./pages/Chatbot/ChatInterface";
 import Footer from "./pages/components/Footer";
-// import { Link } from "react-router-dom";
+import Contect from "./pages/Contect";
+import Privacy from "./pages/Privacy";
 
 const App = () => {
   console.log("VITE_GEMINI_API_KEY:", import.meta.env.VITE_GEMINI_API_KEY);
@@ -40,12 +35,9 @@ const App = () => {
           <Route path="admin/update-package/:id" element={<UpdatePackage />} /> */}
         </Route>
         <Route path="/about" element={<About />} />
-        {/* <Route path="/package/:id" element={<Package />} />
-        <Route path="/package/ratings/:id" element={<RatingsPage />} /> */}
-        {/* checking user auth before booking */}
-        {/* <Route path="/booking" element={<PrivateRoute />}>
-          <Route path=":packageId" element={<Booking />} />
-        </Route> */}
+        <Route path="/contact" element={<Contect />} />
+        <Route path="/privacy" element={<Privacy />} />
+
           <Route path="/ChatInterface" element={<ChatInterface />} />
       </Routes>
     </BrowserRouter>
