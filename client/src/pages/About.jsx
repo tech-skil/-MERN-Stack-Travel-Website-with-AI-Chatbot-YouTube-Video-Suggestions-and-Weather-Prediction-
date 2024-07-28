@@ -1,6 +1,5 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
+import React, { useEffect } from 'react';
+import { useSpring, animated, config } from 'react-spring';
 import image7 from "../assets/images/images.jpg";
 import image8 from "../assets/images/image8.jpeg";
 import image9 from "../assets/images/images9.jpeg";
@@ -10,53 +9,36 @@ import { FaFacebookF, FaTwitter, FaInstagram, FaExternalLinkAlt } from "react-ic
 import ChatIcon from "./ChatIcon";
 
 const About = () => {
-  const fadeIn = {
-    initial: { opacity: 0, y: 20 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.6 }
-  };
+  const [springs, api] = useSpring(() => ({
+    from: { scale: 0, opacity: 0 },
+    to: { scale: 1, opacity: 1 },
+    config: config.molasses,
+  }));
 
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1
-  });
+  useEffect(() => {
+    api.start({ scale: 1, opacity: 1 });
+  }, [api]);
 
   return (
-    <div className="w-full ">
+    <div className="w-full">
       {/* Hero Section */}
       <div className="relative h-96 overflow-hidden">
-        <img src={aboutimg} alt="About Us Hero" className="w-full opacity-60 h-full object-cover" />
+        <img src={aboutimg} alt="About Us Hero" className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <h1 className="text-5xl font-bold text-white uppercase">About Us</h1>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="container mx-auto px-4 py-16">
-        <motion.section 
-          className="bg-white rounded-xl shadow-lg py-12 px-8 mb-12"
-          initial="initial"
-          animate="animate"
-          variants={fadeIn}
-        >
-          <motion.h2 
-            className="text-orange-500 font-semibold mb-2"
-            variants={fadeIn}
-          >
-            ABOUT US
-          </motion.h2>
-          <motion.h1 
-            className="text-4xl font-bold mb-6"
-            variants={fadeIn}
-          >
+      <div className="container mx-auto px-4 py-16 hi">
+        <section className="bg-white rounded-xl shadow-lg py-12 pl-20 px-8 mb-12">
+          <h2 className="text-orange-500 font-semibold mb-2">ABOUT US</h2>
+          <h1 className="text-4xl font-bold mb-6">
             Welcome to <span className="text-orange-500">TRIPLO</span>
-          </motion.h1>
+          </h1>
           
           <div className="flex flex-col lg:flex-row gap-12">
-            <motion.div 
-              className="lg:w-1/2"
-              variants={fadeIn}
-            >
+            <div className="lg:w-1/2">
               <p className="text-gray-600 mb-8 leading-relaxed">
                 Triplo serves as a digital gateway, opening up the world's wonders to visitors right from their screens. We offer a seamless blend of information, inspiration, and convenience, making travel planning an exciting and effortless experience.
               </p>
@@ -67,71 +49,58 @@ const About = () => {
                   { icon: 'star', number: '486', label: 'Reviews' },
                   { icon: 'users', number: '836', label: 'Clients' }
                 ].map((item, index) => (
-                  <motion.div 
+                  <div 
                     key={item.label}
                     className="border border-gray-200 rounded-lg p-4 text-center shadow-sm hover:shadow-md transition-shadow duration-300"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
                   >
                     <i className={`fas fa-${item.icon} text-orange-500 text-3xl mb-2`}></i>
                     <h3 className="text-2xl font-bold">{item.number}</h3>
                     <p className="text-gray-600">{item.label}</p>
-                  </motion.div>
+                  </div>
                 ))}
               </div>
               
-              <motion.button 
+              <button 
                 className="bg-orange-500 text-white py-3 px-8 rounded-full hover:bg-orange-600 transition duration-300 shadow-md hover:shadow-lg text-lg font-semibold"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
               >
                 EXPLORE MORE
-              </motion.button>
-            </motion.div>
+              </button>
+            </div>
             
-            <motion.div
-              ref={ref}
-              initial="hidden"
-              animate={inView ? "visible" : "hidden"}
-              variants={fadeIn}
-              className="grid grid-cols-2 gap-4 max-w-2xl mx-auto"
-            >
-              <motion.div className="col-span-1 space-y-4">
-                <motion.img
-                  src={image7}
-                  alt="Travel image 1"
-                  className="w-full h-64 object-cover rounded-lg shadow-md"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                />
-                <motion.img
-                  src={image9}
-                  alt="Travel image 3"
-                  className="w-full h-48 object-cover rounded-lg shadow-md"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                />
-              </motion.div>
-              <motion.div className="col-span-1 space-y-4">
-                <motion.img
-                  src={image8}
-                  alt="Travel image 2"
-                  className="w-full h-48 object-cover rounded-lg shadow-md"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                />
-                <motion.img
-                  src={image10}
-                  alt="Travel image 4"
-                  className="w-full h-64 object-cover rounded-lg shadow-md"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                />
-              </motion.div>
-            </motion.div>
+            <div className="lg:w-1/2">
+              <div className="grid grid-cols-2 gap-4">
+                <animated.div style={springs} className="w-48 h-48 ml-32 mt-24 mb-3 overflow-hidden">
+                  <img 
+                    src={image7} 
+                    alt="Travel image 1" 
+                    className="w-full h-full object-cover rounded-sm border-2 border-orange-600 drop-shadow-xl"
+                  />
+                </animated.div>
+                <animated.div style={springs} className="w-72 h-72 mb-3 overflow-hidden">
+                  <img 
+                    src={image8} 
+                    alt="Travel image 2" 
+                    className="w-full h-full object-cover rounded-sm border-2 border-orange-600 drop-shadow-xl"
+                  />
+                </animated.div>
+                <animated.div style={springs} className="w-32 h-32 ml-48 overflow-hidden">
+                  <img 
+                    src={image9} 
+                    alt="Travel image 3" 
+                    className="w-full h-full object-cover rounded-sm border-2 border-orange-600 drop-shadow-xl"
+                  />
+                </animated.div>
+                <animated.div style={springs} className="w-48 h-48 overflow-hidden">
+                  <img 
+                    src={image10} 
+                    alt="Travel image 4" 
+                    className="w-full h-full object-cover rounded-sm border-2 border-orange-600 drop-shadow-xl"
+                  />
+                </animated.div>
+              </div>
+            </div>
           </div>
-        </motion.section>
-        
+        </section>
         <ChatIcon />
       </div>
     </div>

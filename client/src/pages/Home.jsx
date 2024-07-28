@@ -150,8 +150,8 @@ const Home = () => {
             <source src={homeVideo} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
-          <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center p-4">
-            <div className="text-white font-bold flex items-center mb-4 text-sm md:text-base">
+          <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center p-4 ">
+            <div className="text-white font-bold flex items-center mb-4 text-sm md:text-base pt-16 ">
               <span className="w-8 md:w-16 mx-2 h-[2px] bg-orange-500"></span>
               WELCOME TO KARNATAKA
               <span className="w-8 md:w-16 mx-2 h-[2px] bg-orange-500"></span>
@@ -159,7 +159,7 @@ const Home = () => {
             <h1 className="text-white text-xl md:text-4xl text-center font-bold mb-4">
               Discover Current Weather Now
             </h1>
-            <div className="flex items-center w-full max-w-md">
+            <div className="flex items-center w-full max-w-sm my-5">
               <input
                 type="text"
                 className="rounded-l-lg outline-none w-full px-2 py-2 border"
