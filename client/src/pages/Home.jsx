@@ -9,8 +9,10 @@ import ChatIcon from "./ChatIcon";
 import gokarnaImage from '../assets/images/gokarna.jpg';
 import coorgImage from '../assets/images/coorg.jpeg';
 import AgumbeImage from '../assets/images/Agumbe.jpg';
+import carousel from '../assets/images/carousel-2.jpg';
 import { Link } from "react-router-dom";
 const Home = () => {
+  
   const navigate = useNavigate();
   const [topPackages, setTopPackages] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -95,32 +97,16 @@ const Home = () => {
 
   return (
     <div className="main w-full relative ">
-      <div className="w-full flex flex-col absolute -inset-1 top-8 ">
+      <div className="w-full flex flex-col absolute -inset-1 top-8 py-14">
         <div className="video-container w-full h-screen relative">
-          <video autoPlay loop muted className="w-full min-h-[80vh] object-cover absolute">
-            <source src={homeVideo} type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-          <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center -mb-32">
-            <h1 className="text-white text-4xl text-center font-bold mb-4">
-              Discover Current Weather Now
-            </h1>
-            <div className="flex items-center">
-              <input
-                type="text"
-                className="rounded-l-lg outline-none w-64 px-2 py-2 border"
-                placeholder="Where do you want to go?"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-              />
-              <button
-                onClick={() => navigate(`/search?searchTerm=${search}`)}
-                className="bg-orange-500 text-white px-4 py-3 rounded-r-lg hover:bg-orange-600"
-              >
-                <FaSearch />
-              </button>
-            </div>
-          </div>
+        <img src={carousel} alt="Background" className="w-full h-full object-cover" />
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="p-3 max-w-xl text-center">
+          <h6 className="text-white text-uppercase mb-3 animate__animated animate__slideInDown">Welcome To Karnataka</h6>
+          <h1 className="text-white mb-3 animate__animated animate__slideInDown">Your Gateway to Unforgettable Experiences</h1>
+        </div>
+      </div>
+          
         </div>
 
         <div className="main p-6 flex flex-col gap-5 pt-32 absolute -inset-2 top-[35rem]">

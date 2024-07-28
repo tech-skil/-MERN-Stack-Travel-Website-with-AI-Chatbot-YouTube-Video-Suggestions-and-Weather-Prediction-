@@ -20,7 +20,7 @@ const Contact = () => {
           </div>
 
           <div className="flex flex-col md:flex-row gap-8">
-            <div className="w-full md:w-1/2">
+            <div className="w-full md:w-1/2 shadow-2xl">
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d248849.84916296526!2d77.49085452562913!3d12.953997351439578!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae1670c9b44e6d%3A0xf8dfc3e8517e4fe0!2sBengaluru%2C%20Karnataka!5e0!3m2!1sen!2sin!4v1689835438050!5m2!1sen!2sin"
                 width="100%"
@@ -33,36 +33,38 @@ const Contact = () => {
               ></iframe>
             </div>
             <div className="w-full md:w-1/2">
-              <form className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="bg-transparent p-6 rounded-lg shadow-2xl">
+                <form className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <input
+                      type="text"
+                      placeholder="Your Name"
+                      className="w-full px-4 py-2 border border-orange-400 border-solid rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                    />
+                    <input
+                      type="email"
+                      placeholder="Your Email"
+                      className="w-full px-4 py-2 border border-orange-400 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                    />
+                  </div>
                   <input
                     type="text"
-                    placeholder="Your Name"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                    placeholder="Subject"
+                    className="w-full px-4 py-2 border border-orange-400 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                   />
-                  <input
-                    type="email"
-                    placeholder="Your Email"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
-                  />
-                </div>
-                <input
-                  type="text"
-                  placeholder="Subject"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
-                />
-                <textarea
-                  placeholder="Message"
-                  rows="5"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
-                ></textarea>
-                <button
-                  type="submit"
-                  className="w-full bg-orange-500 text-white py-2 px-4 rounded-md hover:bg-orange-600 transition duration-300 ease-in-out"
-                >
-                  SEND MESSAGE
-                </button>
-              </form>
+                  <textarea
+                    placeholder="Message"
+                    rows="5"
+                    className="w-full px-4 py-2 border border-orange-400 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  ></textarea>
+                  <button
+                    type="submit"
+                    className="w-full bg-orange-500 text-white py-2 px-4 rounded-md hover:bg-orange-600 transition duration-300 ease-in-out"
+                  >
+                    SEND MESSAGE
+                  </button>
+                </form>
+              </div>
             </div>
           </div>
         </section>
