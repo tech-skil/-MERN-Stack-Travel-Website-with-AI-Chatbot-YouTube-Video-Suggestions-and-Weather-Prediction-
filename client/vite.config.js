@@ -11,7 +11,7 @@ export default defineConfig(({ mode }) => {
     server: {
       proxy: {
         "/api": {
-          target: "http://localhost:8000",
+          target: "https://triplo-backend.onrender.com",
           secure: false,
         },
       },
