@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "proxy": "https://triplo-backend.onrender.com/",
+  "proxy": "https://triplo-lgqm.onrender.com/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
