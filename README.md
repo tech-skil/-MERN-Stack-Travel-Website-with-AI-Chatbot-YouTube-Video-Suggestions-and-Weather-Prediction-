@@ -120,8 +120,8 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 ### For any questions or issues, please contact [Jayanth B R on LinkedIn](https://www.linkedin.com/in/jayanth-b-r-650bb3253?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app).
 ---
 ## *Output Screenshots* : 
-![home](https://github.com/tech-skil/Chat-miniprojrct/blob/chatbot/triplo/triplo%20(1).jpg)
 ![about](https://github.com/tech-skil/Chat-miniprojrct/blob/chatbot/triplo/triplo%20(2).jpg)
+![home](https://github.com/tech-skil/Chat-miniprojrct/blob/chatbot/triplo/triplo%20(1).jpg)
 ![Alt text](https://github.com/tech-skil/Chat-miniprojrct/blob/chatbot/triplo/triplo%20(5).jpg)
 ![chat](https://github.com/tech-skil/Chat-miniprojrct/blob/chatbot/triplo/triplo%20(3).jpg)
 ![yt](https://github.com/tech-skil/Chat-miniprojrct/blob/chatbot/triplo/triplo%20(4).jpg)
