@@ -32,14 +32,17 @@ cd Chat-miniprojrct
 You will need to create environment files for both the front-end and back-end.
 
 ##### Front-End
-`
-Navigate to the `front-end` directory and create a `.env` file with the following variables:
-`
-```
 
-REACT_APP_YOUTUBE_API_KEY=your_youtube_api_key
-REACT_APP_GEMINI_API_KEY=your_gemini_api_key
-REACT_APP_WEATHER_API_KEY=your_weather_api_key
+To run the project, you need to set up environment variables for both the front-end and back-end.
+
+#### 1. Create a `.env` file in the Front-End Directory
+
+Navigate to the `frontend` directory and create a `.env` file with the following content:
+
+```bash
+VITE_GEMINI_API_KEY=your_gemini_api_key
+VITE_YOUTUBE_API_KEY=your_youtube_api_key
+VITE_WEATHER_API_KEY=your_weather_api_key
 ```
 
 ##### Back-End
@@ -49,6 +52,13 @@ Navigate to the `back-end` directory and create a `.env` file with the following
 ```
 MONGODB_URI=your_mongodb_uri
 EXPRESS_API_KEY=your_express_api_key
+JWT_SECRET=secretss
+BRAINTREE_MERCHANT_ID=your_braintree_merchant_id
+BRAINTREE_PUBLIC_KEY=your_braintree_public_key
+BRAINTREE_PRIVATE_KEY=your_braintree_private_key
+NODE_ENV_CUSTOM=your_custom_node_environment
+SERVER_URL=http://localhost:8000
+
 
 ```
 
