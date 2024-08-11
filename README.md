@@ -32,10 +32,11 @@ cd Chat-miniprojrct
 You will need to create environment files for both the front-end and back-end.
 
 ##### Front-End
-```
+`
 Navigate to the `front-end` directory and create a `.env` file with the following variables:
-
+`
 ```
+
 REACT_APP_YOUTUBE_API_KEY=your_youtube_api_key
 REACT_APP_GEMINI_API_KEY=your_gemini_api_key
 REACT_APP_WEATHER_API_KEY=your_weather_api_key
