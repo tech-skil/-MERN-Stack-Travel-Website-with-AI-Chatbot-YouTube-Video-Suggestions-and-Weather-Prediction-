@@ -23,8 +23,8 @@ To get started with the project, follow the instructions below to set up both th
 #### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/tech-skil/Chat-miniprojrct.git
-cd Chat-miniprojrct
+git clone https://github.com/tech-skil/MERN-Stack-Travel-Website-with-AI-Chatbot-YouTube-Video-Suggestions-and-Weather-Prediction.git
+cd -MERN-Stack-Travel-Website-with-AI-Chatbot-YouTube-Video-Suggestions-and-Weather-Prediction
 ```
 
 #### 2. Set Up Environment Variables
