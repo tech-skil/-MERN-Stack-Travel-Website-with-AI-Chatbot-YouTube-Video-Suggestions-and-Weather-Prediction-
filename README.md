@@ -1,6 +1,6 @@
 Certainly! Here’s the updated `README.md` file with the specific instructions for running the front-end and back-end projects:
 
-```markdown
+
 # Travel Website with Gemini, YouTube, and Weather APIs
 
 Welcome to the Travel Website project! This project integrates Gemini API for chat functionality, YouTube API for video content, and Weather API for real-time weather updates. The project is built using React and Tailwind CSS for the front-end and Node.js with Express and MongoDB for the back-end.
@@ -27,7 +27,7 @@ To get started with the project, follow the instructions below to set up both th
 ```bash
 git clone https://github.com/tech-skil/Chat-miniprojrct.git
 cd Chat-miniprojrct
-```
+
 
 #### 2. Set Up Environment Variables
 
