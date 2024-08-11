@@ -27,14 +27,14 @@ To get started with the project, follow the instructions below to set up both th
 ```bash
 git clone https://github.com/tech-skil/Chat-miniprojrct.git
 cd Chat-miniprojrct
-
+```
 
 #### 2. Set Up Environment Variables
 
 You will need to create environment files for both the front-end and back-end.
 
 ##### Front-End
-
+```
 Navigate to the `front-end` directory and create a `.env` file with the following variables:
 
 ```
