@@ -52,7 +52,7 @@ EXPRESS_API_KEY=your_express_api_key
 
 ```
 
-Replace the placeholders (`your_youtube_api_key`, `your_gemini_api_key`, `your_weather_api_key`, `your_mongodb_uri`, `your_express_api_key`) with your actual API keys and URI.
+Replace the placeholders (`your_youtube_api_key`, `your_gemini_api_key`, `your_weather_api_key`, `your_mongodb_uri`, `your_express_api_key`, in Frontend `.env` file) with your actual API keys and URI.
 
 #### 3. Install Dependencies
 
