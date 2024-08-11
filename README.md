@@ -110,7 +110,12 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 ### For any questions or issues, please contact [Jayanth B R on LinkedIn](https://www.linkedin.com/in/jayanth-b-r-650bb3253?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app).
 ---
 ## *Output Screenshots* : 
-![Alt text](https://github.com/tech-skil/Chat-miniprojrct/blob/chatbot/triplo/triplo%20(1).jpg)
+![home](https://github.com/tech-skil/Chat-miniprojrct/blob/chatbot/triplo/triplo%20(1).jpg)
+![chat](https://github.com/tech-skil/Chat-miniprojrct/blob/chatbot/triplo/triplo%20(2).jpg)
+![Alt text](https://github.com/tech-skil/Chat-miniprojrct/blob/chatbot/triplo/triplo%20(3).jpg)
+![Alt text](https://github.com/tech-skil/Chat-miniprojrct/blob/chatbot/triplo/triplo%20(4).jpg)
+![Alt text](https://github.com/tech-skil/Chat-miniprojrct/blob/chatbot/triplo/triplo%20(5).jpg)
+![Alt text](https://github.com/tech-skil/Chat-miniprojrct/blob/chatbot/triplo/triplo%20(6).jpg)
 
 Thank you for checking out the Travel Website project! We hope you find it useful and enjoy working with it.
 
