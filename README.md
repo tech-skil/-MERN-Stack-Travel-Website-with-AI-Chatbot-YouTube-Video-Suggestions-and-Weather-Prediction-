@@ -50,7 +50,7 @@ Navigate to the `back-end` directory and create a `.env` file with the following
 MONGODB_URI=your_mongodb_uri
 EXPRESS_API_KEY=your_express_api_key
 
-
+```
 
 Replace the placeholders (`your_youtube_api_key`, `your_gemini_api_key`, `your_weather_api_key`, `your_mongodb_uri`, `your_express_api_key`) with your actual API keys and URI.
 
@@ -107,7 +107,7 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ## Contact
 
-For any questions or issues, please contact [https://www.linkedin.com/in/jayanth-b-r-650bb3253?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app].
+### For any questions or issues, please contact [https://www.linkedin.com/in/jayanth-b-r-650bb3253?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app].
 ---
 Thank you for checking out the Travel Website project! We hope you find it useful and enjoy working with it.
 
